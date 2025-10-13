@@ -1,19 +1,17 @@
-import Elysia from "elysia";
+import { Elysia } from "elysia";
 import login from "../controllers/auth/login.controllers";
 import signup from "../controllers/auth/signup.controllers";
 import dbCheck from "../controllers/test/test";
+import { topics } from "../controllers/topics/topics.controller";
 
-const router = new Elysia({ prefix: "/api" })
+export const router = new Elysia({ prefix: "/api" })
+  // auth
+  .post("/login", login)
+  .post("/signup", signup)
 
-//auth 
-router.post('/login', login);
-router.post('/signup', signup);
+  // topics
+  .use(topics) // ✅ Montamos la subapp aquí
 
-
-//test
-router.get('/back', () => 'Test route is working');
-router.get('/db', dbCheck);
-
-
-
-export default router;
+  // test
+  .get("/db", dbCheck)
+  .get("/back", () => "Test route is working");

@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
-import router from "../routes/index.routes";
+import { router } from "../routes/index.routes";
+
 
 const PORT = 3000;
 
