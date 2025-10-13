@@ -1,7 +1,6 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { router } from "../routes/index.routes";
-import 'bun:dotenv';
 
 const PORT = 3000;
 
