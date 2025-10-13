@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // Validar que sea username (mínimo 3 letras/números) o email válido
-const usernameOrEmailSchema = z
+const email = z
   .string()
   .min(3, "Debe tener al menos 3 caracteres")
   .refine(
@@ -14,7 +14,7 @@ const usernameOrEmailSchema = z
 
 // 🔹 Campos comunes
 const credentialsSchema = z.object({
-  usernameOrEmail: usernameOrEmailSchema,
+  email: email,
   password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
 });
 

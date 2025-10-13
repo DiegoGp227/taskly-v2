@@ -29,12 +29,12 @@ export default function FormLogin({ onSubmit, isLoading, error }: FormLoginProps
         <input
           type="text"
           placeholder="Email"
-          className={`input ${errors.usernameOrEmail ? "border-red-500" : ""}`}
-          {...register("usernameOrEmail")}
+          className={`input ${errors.email ? "border-red-500" : ""}`}
+          {...register("email")}
         />
-        {errors.usernameOrEmail && (
+        {errors.email && (
           <p className="text-red-500 text-sm mt-1">
-            {errors.usernameOrEmail.message}
+            {errors.email.message}
           </p>
         )}
       </div>
@@ -52,7 +52,7 @@ export default function FormLogin({ onSubmit, isLoading, error }: FormLoginProps
       </div>
 
       <button
-      
+
         className="button flex items-center justify-center gap-2"
         type="submit"
         disabled={isSubmitting}
