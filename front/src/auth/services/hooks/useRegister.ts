@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { AuthUserURL } from "@/src/shared/constants/urls";
+import { SignupUserURL } from "@/src/shared/constants/urls";
 import { postFetcher } from "@/utils/utils";
 
 export default function useRegister() {
@@ -11,7 +11,7 @@ export default function useRegister() {
     setIsLoading(true);
     setError(null);
     try {
-      const url = AuthUserURL.toString(); // Asegúrate que esta URL apunte al endpoint de registro
+      const url = SignupUserURL.toString(); // Asegúrate que esta URL apunte al endpoint de registro
       const response = await postFetcher<any>(url, payload, "application/json");
       setUser(response);
       return response;

@@ -7,6 +7,7 @@ const SECRET_KEY = process.env.SECRET_KEY as Secret;
 const TOKEN_EXPIRATION = (process.env.TOKEN_EXPIRATION || "1h") as ms.StringValue;
 
 
+
 const signup = async ({ body, set }: { body: any; set: any }) => {
   const { username, email, password } = body;
 
