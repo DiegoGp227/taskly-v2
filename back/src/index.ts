@@ -8,7 +8,7 @@ const app = new Elysia()
   .use(
     cors({
       origin: [
-        "http://localhost:5173",
+        "http://localhost:3000",
         "https://5db5-190-25-164-252.ngrok-free.app",
       ],
       credentials: true,
