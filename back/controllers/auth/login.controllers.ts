@@ -2,10 +2,11 @@ import bcryptjs from "bcryptjs";
 import db from "../../db/db";
 import jwt from "jsonwebtoken";
 import type { SignOptions, Secret } from "jsonwebtoken";
-import type ms from "ms"; 
+import type ms from "ms";
 
 const SECRET_KEY = process.env.SECRET_KEY as Secret;
-const TOKEN_EXPIRATION = (process.env.TOKEN_EXPIRATION || "1h") as ms.StringValue;
+const TOKEN_EXPIRATION = (process.env.TOKEN_EXPIRATION ||
+  "1h") as ms.StringValue;
 
 const login = async ({ body, set }: { body: any; set: any }) => {
   const { email, password } = body;
@@ -37,10 +38,16 @@ const login = async ({ body, set }: { body: any; set: any }) => {
 
     set.status = 200;
     return {
-      message: "Correct login",
-      token,
-      email,
-      userId: user[0].id,
+      success: true,
+      message: "Login successful",
+      data: {
+        token,
+        user: {
+          id: user[0].id,
+          name: user[0].name,
+          email: user[0].email,
+        },
+      },
     };
   } catch (error) {
     console.error("Error in the server:", error);

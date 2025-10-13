@@ -10,7 +10,7 @@ export const router = new Elysia({ prefix: "/api" })
   .post("/signup", signup)
 
   // topics
-  .use(topics) // ✅ Montamos la subapp aquí
+  .use(topics) 
 
   // test
   .get("/db", dbCheck)
