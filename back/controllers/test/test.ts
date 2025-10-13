@@ -1,4 +1,4 @@
-import pool from "../db/db";
+import pool from "../../db/db";
 
 const dbCheck = async ({ set }: { set: any }) => {
   try {

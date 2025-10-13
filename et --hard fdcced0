@@ -1,9 +1,0 @@
-[33mb45f7a1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;32mdevelop[m[33m)[m main@{0}: reset: moving to develop
-[33mfdcced0[m main@{1}: commit: [ wip ] login in progress
-[33m21a4a5f[m main@{2}: commit: [ fix ] cors fixed
-[33mf6a41b7[m main@{3}: commit: [ fix ] cors fixed
-[33m7234235[m main@{4}: commit: [ init ] urls integrated
-[33m61b0463[m main@{5}: merge develop: Merge made by the 'ort' strategy.
-[33m80e2710[m main@{6}: pull origin main: Fast-forward
-[33m0456e54[m main@{7}: Branch: renamed refs/heads/master to refs/heads/main
-[33m0456e54[m main@{8}: commit (initial): [ init ] initial commit
