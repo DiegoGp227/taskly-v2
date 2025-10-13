@@ -29,7 +29,7 @@ services:
       TOKEN_EXPIRATION: ${TOKEN_EXPIRATION}
       PORT: ${PORT}
     ports:
-      - "5000:3000"
+      - "3000:3000"
     networks:
       - taskly_network
 

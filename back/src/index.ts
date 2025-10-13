@@ -1,10 +1,9 @@
 import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
-import router from "../routes/index.routes"
+import router from "../routes/index.routes";
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
-// Configura el servidor
 const app = new Elysia()
   .use(
     cors({
@@ -15,7 +14,8 @@ const app = new Elysia()
       credentials: true,
     })
   )
-  .use(router) 
+  .use(router)
+  .get("/ping", () => "pong") 
   .all("*", () => ({
     message: "Escribe bien mono estupido",
   }))
