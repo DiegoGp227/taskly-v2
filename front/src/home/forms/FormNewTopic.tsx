@@ -40,7 +40,9 @@ export default function FormNewTopic({
           {...register("title")}
         />
         {errors.title && (
-          <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+          <p className="text-red-500 text-sm mt-1 mx-3">
+            {errors.title.message}
+          </p>
         )}
       </div>
 
@@ -52,12 +54,14 @@ export default function FormNewTopic({
           {...register("description")}
         />
         {errors.description && (
-          <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+          <p className="text-red-500 text-sm mt-1 mx-3">
+            {errors.description.message}
+          </p>
         )}
       </div>
 
       {/* Error general */}
-      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+      {error && <p className="text-red-500 text-sm mt-2 mx-3">{error}</p>}
 
       <button
         className="button flex items-center justify-center gap-2"

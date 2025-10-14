@@ -7,12 +7,12 @@ interface IModalProps {
 
 export default function Modal({ children, onClose }: IModalProps) {
   return (
-    <div
-      className={`fixed inset-0 flex items-center justify-center z-10 
-        bg-[#031827]/88
-   `}
-    >
-      <div className="relative flex flex-col p-4 max-w-[85vw] max-h-[85vh] overflow-x-auto rounded">
+<div
+  className={`fixed inset-0 flex items-center justify-center z-10 
+    bg-[#282828]/60 backdrop-blur-xs
+  `}
+>
+      <div className="relative flex flex-col p-4 max-w-[85vw] max-h-[85vh] overflow-x-auto rounded bg-hard-gray border-2 border-soft-gray">
         <div className={`flex justify-end h-[60px] `}>
           <button onClick={onClose}>
             <FiX className={`text-white text-2xl`} />

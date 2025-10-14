@@ -31,7 +31,7 @@ export default function HomePage() {
       ))}
       {modal && (
         <Modal onClose={() => setModal(false)}>
-          <div className="w-96 h-[400px] bg-hard-gray border-2 border-soft-gray flex flex-col ">
+          <div className="w-96 h-[400px] flex flex-col ">
             <FormNewTopic onSubmit={() => {}} />
           </div>
         </Modal>
