@@ -6,3 +6,4 @@ export const Test = new URL("/api/test", BaseURL);
 export const AuthUserURL = new URL("/api/login", BaseURL);
 export const SignupUserURL = new URL("/api/signup", BaseURL);
 
+export const TopicsURL = new URL("/api/topics", BaseURL);

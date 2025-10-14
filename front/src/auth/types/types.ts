@@ -19,3 +19,10 @@ export interface RegisterCredentials {
   password: string;
   confirmPassword: string;
 }
+
+export interface Topic {
+  id: number;
+  user_id: number;
+  title: string;
+  description?: string | null;
+}

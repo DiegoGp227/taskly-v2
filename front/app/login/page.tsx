@@ -16,7 +16,7 @@ function LoginPage() {
     const response = await loginUser(data);
     if (response) {
       console.log("Usuario registrado/logueado:", response);
-      router.push("/page");
+      router.push("/");
     } else {
       console.error("Error al registrar/loguear usuario:", error);
     }
