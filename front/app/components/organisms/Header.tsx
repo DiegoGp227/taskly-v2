@@ -1,19 +1,33 @@
-// import ProfileButton from "../ProfileButton/index.tsx";
+"use client";
 import tasklyImg from "@/public/taskly.png";
 import Image from "next/image.js";
 import Link from "next/link.js";
+import { usePathname, useRouter } from "next/navigation";
 import { FaRegUserCircle } from "react-icons/fa";
 
 function Header() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const hiddenRoutes = ["/sign_up", "/login", "/not-found"];
+
+  // Verificamos si coincide exactamente con alguna
+  const hideHeader = hiddenRoutes.includes(pathname);
+  
   return (
-    <header className="h-12 p-2.5 bg-blue flex justify-between items-center">
+    <header
+      className={`h-12 p-2.5 bg-blue flex justify-between items-center ${
+        hideHeader ? "hidden" : ""
+      }`}
+    >
       <div>
         <Image
           src={tasklyImg}
           alt="Logo"
           width={100}
           height={100}
-          className="w-10 h-auto mr-2.5"
+          className="w-10 h-auto mr-2.5 cursor-pointer"
+          onClick={() => router.push("/")}
         />
       </div>
       <div>
