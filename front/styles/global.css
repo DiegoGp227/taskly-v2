@@ -5,6 +5,7 @@
   --green: #00f431;
   --soft-gray: #555;
   --hard-gray: #282828;
+  --blue: #212224;
 }
 
 body {
@@ -17,9 +18,9 @@ body {
 .bg-color-white {
   background-color: var(--color-white);
 }
-/* .bg-color-blue {
-  background-color: var(--color-blue);
-} */
+.bg-blue {
+  background-color: var(--blue);
+}
 .bg-green {
   background-color: var(--green);
 }
@@ -34,9 +35,9 @@ body {
 .text-color-white {
   color: var(--color-white);
 }
-/* .text-color-blue {
-  color: var(--color-blue);
-} */
+.text-blue {
+  color: var(--blue);
+}
 .text-green {
   color: var(--green);
 }
@@ -51,9 +52,9 @@ body {
 .border-color-white {
   border-color: var(--color-white);
 }
-/* .border-color-blue {
-  border-color: var(--color-blue);
-} */
+.border-blue {
+  border-color: var(--blue);
+}
 .border-green {
   border-color: var(--green);
 }
