@@ -12,3 +12,10 @@ export interface LoginResponse {
     email: string;
   };
 }
+
+export interface RegisterCredentials {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}

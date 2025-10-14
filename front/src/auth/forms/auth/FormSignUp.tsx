@@ -11,7 +11,11 @@ interface FormSignUpProps {
   error?: string | null;
 }
 
-export default function FormSignUp({ onSubmit, isLoading, error }: FormSignUpProps) {
+export default function FormSignUp({
+  onSubmit,
+  isLoading,
+  error,
+}: FormSignUpProps) {
   const {
     register,
     handleSubmit,
@@ -28,14 +32,24 @@ export default function FormSignUp({ onSubmit, isLoading, error }: FormSignUpPro
       <div className="w-full">
         <input
           type="text"
+          placeholder="username"
+          className={`input ${errors.username ? "border-red-500" : ""}`}
+          {...register("username")}
+        />
+        {errors.username && (
+          <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>
+        )}
+      </div>
+
+      <div className="w-full">
+        <input
+          type="email"
           placeholder="Email"
           className={`input ${errors.email ? "border-red-500" : ""}`}
           {...register("email")}
         />
         {errors.email && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.email.message}
-          </p>
+          <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
         )}
       </div>
 
@@ -51,7 +65,7 @@ export default function FormSignUp({ onSubmit, isLoading, error }: FormSignUpPro
         )}
       </div>
 
-        <div className="w-full">
+      <div className="w-full">
         <input
           type="password"
           placeholder="Confirm Password"
@@ -59,12 +73,13 @@ export default function FormSignUp({ onSubmit, isLoading, error }: FormSignUpPro
           {...register("confirmPassword")}
         />
         {errors.confirmPassword && (
-          <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+          <p className="text-red-500 text-sm mt-1">
+            {errors.confirmPassword.message}
+          </p>
         )}
       </div>
 
       <button
-
         className="button flex items-center justify-center gap-2"
         type="submit"
         disabled={isSubmitting}

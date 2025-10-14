@@ -12,21 +12,24 @@ const email = z
     }
   );
 
-// 🔹 Campos comunes
+// 🔹 Campos comunes (login base)
 const credentialsSchema = z.object({
   email: email,
   password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
 });
 
-// 🔹 Signup (extiende credenciales y agrega campos extra)
+// 🔹 Signup (extiende credenciales y agrega username y confirmación)
 export const signupSchema = credentialsSchema
   .extend({
-    name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+    username: z
+      .string()
+      .min(3, "El nombre de usuario debe tener al menos 3 caracteres")
+      .regex(/^[a-zA-Z0-9_]+$/, "Solo se permiten letras, números y guiones bajos"),
     confirmPassword: z.string().nonempty("Debes confirmar tu contraseña"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Las contraseñas no coinciden",
-    path: ["confirmPassword"], // Marca el error en confirmPassword
+    path: ["confirmPassword"],
   });
 
 // 🔹 Login (solo usa credenciales)

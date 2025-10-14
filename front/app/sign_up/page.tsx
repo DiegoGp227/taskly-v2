@@ -1,16 +1,17 @@
 "use client";
 
-import { LoginInput } from "@/src/schemas/auth";
 import useRegister from "@/src/auth/services/hooks/useRegister";
 import { useRouter } from "next/navigation";
 import FormSignUp from "@/src/auth/forms/auth/FormSignUp";
-import useAuthUser from "@/src/auth/services/hooks/useAuthUser";
+import { RegisterCredentials } from "@/src/auth/types/types";
 
-function LoginPage() {
-  const { login: signUpUser, isLoading, error } = useAuthUser();
+export default function SignUpPage() {
+  const { register: signUpUser, isLoading, error } = useRegister();
 
   const router = useRouter();
-  const handleLogin = async (data: LoginInput) => {
+
+  const handleSignUp = async (data: RegisterCredentials) => {
+    console.log("Datos del formulario:", data);
     const response = await signUpUser(data);
     if (response) {
       console.log("Usuario registrado/logueado:", response);
@@ -22,12 +23,10 @@ function LoginPage() {
 
   return (
     <main className="w-screen h-screen flex justify-center items-center">
-      <div className="w-96 h-[400px] flex flex-col items-center border-2 border-soft-gray justify-evenly rounded">
+      <div className="w-96 h-[550px] flex flex-col items-center border-2 border-soft-gray justify-evenly rounded">
         <h1 className="text-white font-bold text-4xl">Sign Up</h1>
-        <FormSignUp onSubmit={handleLogin} isLoading={isLoading} error={error} />
+        <FormSignUp onSubmit={handleSignUp} isLoading={isLoading} error={error} />
       </div>
     </main>
   );
 }
-
-export default LoginPage;

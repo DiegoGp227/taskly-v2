@@ -1,33 +1,63 @@
 import { useState, useCallback } from "react";
-import { AuthUserURL } from "@/src/shared/constants/urls";
+import { SignupUserURL } from "@/src/shared/constants/urls";
 import { postFetcher } from "@/utils/utils";
+import { LoginResponse, RegisterCredentials } from "../../types/types";
 
-export default function useAuthUser() {
-  const [user, setUser] = useState<any | null>(null);
+export default function useRegister() {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null); // ⚡ cambio: string en vez de unknown
+  const [error, setError] = useState<string | null>(null);
 
-  const login = useCallback(async (payload: any) => {
+  const register = useCallback(async (credentials: RegisterCredentials) => {
     setIsLoading(true);
     setError(null);
+
     try {
-      const url = AuthUserURL.toString();
-      const response = await postFetcher<any>(url, payload, "application/json");
-      setUser(response);
+      const url = SignupUserURL.toString();
+      const response = await postFetcher<LoginResponse>(
+        url,
+        {
+          username: credentials.username,
+          email: credentials.email,
+          password: credentials.password,
+          confirmPassword: credentials.confirmPassword,
+        },
+      );
+
+      if (response?.token) {
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
+      }
+
       return response;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err)); // ⚡ convertir a string
-      setUser(null);
-      return null;
+    } catch (err: any) {
+      let errorMessage = "Ocurrió un error inesperado. Inténtalo de nuevo.";
+
+      if (err.response) {
+        switch (err.response.status) {
+          case 401:
+            errorMessage = "Credenciales incorrectas. Inténtalo de nuevo.";
+            break;
+          case 500:
+            errorMessage = "Error del servidor. Inténtalo más tarde.";
+            break;
+          default:
+            errorMessage = err.response.data?.message || errorMessage;
+        }
+      } else if (err.request) {
+        errorMessage = "Error de conexión. Verifica tu conexión a internet.";
+      }
+
+      setError(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
+
   return {
-    user,
     isLoading,
     error,
-    login,
+    register,
   };
 }
