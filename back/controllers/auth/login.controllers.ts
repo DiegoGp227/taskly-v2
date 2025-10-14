@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import type { SignOptions, Secret } from "jsonwebtoken";
 import type ms from "ms";
 
-const SECRET_KEY = process.env.SECRET_KEY as Secret;
+const JWT_SECRET = process.env.JWT_SECRET as Secret;
 const TOKEN_EXPIRATION = (process.env.TOKEN_EXPIRATION ||
   "1h") as ms.StringValue;
 
@@ -32,7 +32,7 @@ const login = async ({ body, set }: { body: any; set: any }) => {
     const options: SignOptions = { expiresIn: TOKEN_EXPIRATION };
     const token = jwt.sign(
       { userId: user[0].id, email: user[0].email },
-      SECRET_KEY,
+      JWT_SECRET,
       options
     );
 
