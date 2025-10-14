@@ -3,7 +3,7 @@ import db from "../../db/db.js";
 import jwt, { type Secret } from "jsonwebtoken";
 import type ms from "ms";
 
-const SECRET_KEY = process.env.SECRET_KEY as Secret;
+const JWT_SECRET = process.env.JWT_SECRET as Secret;
 const TOKEN_EXPIRATION = (process.env.TOKEN_EXPIRATION ||
   "1h") as ms.StringValue;
 
@@ -41,7 +41,7 @@ const signup = async ({ body, set }: { body: any; set: any }) => {
 
     console.log("Usuario creado exitosamente con ID:", insertResult.insertId);
 
-    const token = jwt.sign({ id: insertResult.insertId, email }, SECRET_KEY, {
+    const token = jwt.sign({ id: insertResult.insertId, email }, JWT_SECRET, {
       expiresIn: TOKEN_EXPIRATION,
     });
 
