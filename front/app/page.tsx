@@ -5,6 +5,7 @@ import useGetTopics from "@/src/home/services/hooks/useGetTopics";
 import ButtonNewTopic from "./components/atoms/ButtonNewTopic";
 import ButtonTopicCard from "./components/atoms/ButtonTopicCard";
 import Modal from "./components/utils/Modal";
+import FormNewTopic from "@/src/home/forms/FormNewTopic";
 
 export default function HomePage() {
   const { topics, isLoading, error, refresh } = useGetTopics();
@@ -30,8 +31,8 @@ export default function HomePage() {
       ))}
       {modal && (
         <Modal onClose={() => setModal(false)}>
-          <div>
-            <h1>New Topic</h1>
+          <div className="w-96 h-[400px] bg-hard-gray border-2 border-soft-gray flex flex-col ">
+            <FormNewTopic onSubmit={() => {}} />
           </div>
         </Modal>
       )}

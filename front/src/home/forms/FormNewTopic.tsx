@@ -2,22 +2,26 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, type LoginInput } from "@/src/schemas/auth";
 import { LuSendHorizontal } from "react-icons/lu";
+import { TopicInput, topicSchema } from "@/src/schemas/home";
 
-interface FormLoginProps {
-  onSubmit: (data: LoginInput) => void;
+interface FormTopicProps {
+  onSubmit: (data: TopicInput) => void;
   isLoading?: boolean;
   error?: string | null;
 }
 
-export default function FormLogin({ onSubmit, isLoading, error }: FormLoginProps) {
+export default function FormNewTopic({
+  onSubmit,
+  isLoading,
+  error,
+}: FormTopicProps) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<TopicInput>({
+    resolver: zodResolver(topicSchema),
   });
 
   return (
@@ -25,40 +29,43 @@ export default function FormLogin({ onSubmit, isLoading, error }: FormLoginProps
       className="flex flex-col items-center gap-4 w-full max-w-sm"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <h1 className="text-center text-white text-4xl">New Topic</h1>
+
+      {/* Título */}
       <div className="w-full">
         <input
           type="text"
-          placeholder="Email"
-          className={`input ${errors.email ? "border-red-500" : ""}`}
-          {...register("email")}
+          placeholder="Topic Title"
+          className={`input ${errors.title ? "border-red-500" : ""}`}
+          {...register("title")}
         />
-        {errors.email && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.email.message}
-          </p>
+        {errors.title && (
+          <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
         )}
       </div>
 
+      {/* Descripción */}
       <div className="w-full">
-        <input
-          type="password"
-          placeholder="Password"
-          className={`input ${errors.password ? "border-red-500" : ""}`}
-          {...register("password")}
+        <textarea
+          placeholder="Description (optional)"
+          className={`input ${errors.description ? "border-red-500" : ""}`}
+          {...register("description")}
         />
-        {errors.password && (
-          <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+        {errors.description && (
+          <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
         )}
       </div>
+
+      {/* Error general */}
+      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
       <button
-
         className="button flex items-center justify-center gap-2"
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || isLoading}
       >
-        <span>Send</span>
-        <LuSendHorizontal size={20} />
+        <span>{isLoading ? "Loading..." : "Send"}</span>
+        {!isLoading && <LuSendHorizontal size={20} />}
       </button>
     </form>
   );

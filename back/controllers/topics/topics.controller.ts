@@ -5,8 +5,6 @@ import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import { jwtPlugin } from "../../plugins/jwt"; 
 
 interface Topic extends RowDataPacket {
-  id: number;
-  user_id: number;
   title: string;
   description?: string | null;
 }
