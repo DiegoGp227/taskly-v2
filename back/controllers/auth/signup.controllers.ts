@@ -4,21 +4,23 @@ import jwt, { type Secret } from "jsonwebtoken";
 import type ms from "ms";
 
 const SECRET_KEY = process.env.SECRET_KEY as Secret;
-const TOKEN_EXPIRATION = (process.env.TOKEN_EXPIRATION || "1h") as ms.StringValue;
-
-
+const TOKEN_EXPIRATION = (process.env.TOKEN_EXPIRATION ||
+  "1h") as ms.StringValue;
 
 const signup = async ({ body, set }: { body: any; set: any }) => {
-  const { username, email, password } = body;
+  const { email, password } = body;
 
-  if (!username || !email || !password) {
+  if (!email || !password) {
     set.status = 400;
     return { message: "Some field is missing." };
   }
 
   try {
     console.log("Consultando usuario con email:", email);
-    const [rows]: [any[], any] = await db.execute("SELECT * FROM users WHERE email = ?", [email]);
+    const [rows]: [any[], any] = await db.execute(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
 
     if (rows.length > 0) {
       console.log("El usuario ya existe");
@@ -30,8 +32,12 @@ const signup = async ({ body, set }: { body: any; set: any }) => {
     const hashedPassword = await bcryptjs.hash(password, salt);
     console.log("Contraseña encriptada");
 
-    const insertQuery = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-    const [insertResult]: any = await db.execute(insertQuery, [username, email, hashedPassword]);
+    const insertQuery =
+      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    const [insertResult]: any = await db.execute(insertQuery, [
+      email,
+      hashedPassword,
+    ]);
 
     console.log("Usuario creado exitosamente con ID:", insertResult.insertId);
 
@@ -45,7 +51,6 @@ const signup = async ({ body, set }: { body: any; set: any }) => {
       userId: insertResult.insertId,
       token,
       email,
-      username,
     };
   } catch (error) {
     console.error("Error en la operación:", error);
