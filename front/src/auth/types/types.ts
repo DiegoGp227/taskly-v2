@@ -21,8 +21,12 @@ export interface RegisterCredentials {
 }
 
 export interface Topic {
+  title: string;
+  description?: string | null;
+}
+
+export interface IResponseTopic {
   id: number;
-  user_id: number;
   title: string;
   description?: string | null;
 }

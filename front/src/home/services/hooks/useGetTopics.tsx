@@ -1,10 +1,10 @@
 import { useState, useCallback } from "react";
 import { TopicsURL } from "@/src/shared/constants/urls";
 import { fetcher } from "@/utils/utils";
-import { Topic } from "@/src/auth/types/types";
+import { IResponseTopic, Topic } from "@/src/auth/types/types";
 
 export default function useGetTopics() {
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<IResponseTopic[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,7 +15,7 @@ export default function useGetTopics() {
 
     try {
       const url = TopicsURL.toString();
-      const data = await fetcher<Topic[]>(url);
+      const data = await fetcher<IResponseTopic[]>(url);
       if (data) setTopics(data);
       return data;
     } catch (err: any) {
