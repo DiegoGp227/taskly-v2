@@ -15,7 +15,7 @@ export default function ButtonTopicCard({
   changeRendering,
 }: IButtonTopicCardProps) {
   return (
-    <button className="w-[300px] h-[200px] border-2 border-soft-gray rounded-[5px] p-5 hover:border-green flex flex-col justify-evenly">
+    <button className="w-[300px] h-[200px] border-2 border-soft-gray rounded-[5px] p-5 hover:border-green-500 flex flex-col justify-between">
       <div className="flex flex-col gap-2">
         <h1 className="text-white text-4xl">{title}</h1>
         <p className="text-start text-white">{description}</p>

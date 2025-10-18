@@ -31,22 +31,19 @@ const login = async ({ body, set }: { body: any; set: any }) => {
 
     const options: SignOptions = { expiresIn: TOKEN_EXPIRATION };
     const token = jwt.sign(
-      { userId: user[0].id, email: user[0].email },
+      { id: user[0].id, email: user[0].email },
       JWT_SECRET,
       options
     );
 
     set.status = 200;
     return {
-      success: true,
       message: "Login successful",
-      data: {
-        token,
-        user: {
-          id: user[0].id,
-          name: user[0].name,
-          email: user[0].email,
-        },
+      token,
+      userInfo: {
+        id: user[0].id,
+        name: user[0].name,
+        email: user[0].email,
       },
     };
   } catch (error) {
