@@ -12,7 +12,8 @@ const app = new Elysia()
         "http://localhost:5000",
         "http://192.168.0.3:3000",
         "http://192.168.0.3:5000",
-        "https://tasklyapp-v2.duckdns.org",
+        "https://taskly.devdiego.work",
+        "https://api.devdiego.work",
       ],
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -20,9 +21,9 @@ const app = new Elysia()
     })
   )
   .use(router)
-  .get("/ping", () => "pong") 
+  .get("/ping", () => "pong")
   .all("*", () => ({
-    message: "Ruta no encontrada",
+    message: "Escribe bien mono estupido",
   }))
   .listen(PORT);
 
