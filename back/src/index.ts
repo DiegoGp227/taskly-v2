@@ -10,9 +10,13 @@ const app = new Elysia()
       origin: [
         "http://localhost:3000",
         "http://localhost:5000",
+        "http://192.168.0.3:3000",
+        "http://192.168.0.3:5000",
         "https://tasklyapp-v2.duckdns.org",
       ],
       credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
     })
   )
   .use(router)
