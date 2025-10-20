@@ -6,30 +6,38 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3000:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
       - taskly_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   backend:
     build: ./back
     container_name: taskly_backend
     restart: always
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
+      PORT: ${PORT}
       DB_HOST: mysql
-      DB_USER: root
-      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      DB_DATABASE: ${MYSQL_DATABASE}
       DB_PORT: 3306
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_DATABASE: ${MYSQL_DATABASE}
       JWT_SECRET: ${JWT_SECRET}
       TOKEN_EXPIRATION: ${TOKEN_EXPIRATION}
-      PORT: 3000
+      API_KEY: ${API_KEY}
     ports:
-      - "4000:3000"
+      - "4000:${PORT}"
     networks:
       - taskly_network
 
@@ -40,7 +48,7 @@ services:
     depends_on:
       - backend
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:4000
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
     ports:
       - "5000:3000"
     networks:
