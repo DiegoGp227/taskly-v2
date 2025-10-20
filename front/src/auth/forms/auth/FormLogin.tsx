@@ -11,7 +11,7 @@ interface FormLoginProps {
   error?: string | null;
 }
 
-export default function FormLogin({ onSubmit, isLoading, error }: FormLoginProps) {
+export default function FormLogin({ onSubmit }: FormLoginProps) {
   const {
     register,
     handleSubmit,

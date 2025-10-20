@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { TopicsURL } from "@/src/shared/constants/urls";
 import { fetcher } from "@/utils/utils";
-import { IResponseTopic, Topic } from "@/src/auth/types/types";
+import { IResponseTopic } from "@/src/auth/types/types";
 
 export default function useGetTopics() {
   const [topics, setTopics] = useState<IResponseTopic[]>([]);
@@ -18,7 +18,7 @@ export default function useGetTopics() {
       const data = await fetcher<IResponseTopic[]>(url);
       if (data) setTopics(data);
       return data;
-    } catch (err: any) {
+    } catch {
       const errorMessage = "Ocurrió un error inesperado. Inténtalo de nuevo.";
       setError(errorMessage);
       throw new Error(errorMessage);

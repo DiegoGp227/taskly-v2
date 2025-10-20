@@ -7,14 +7,11 @@ import { LuSendHorizontal } from "react-icons/lu";
 
 interface FormSignUpProps {
   onSubmit: (data: SignupInput) => void;
-  isLoading?: boolean;
-  error?: string | null;
 }
 
 export default function FormSignUp({
   onSubmit,
-  isLoading,
-  error,
+
 }: FormSignUpProps) {
   const {
     register,

@@ -3,7 +3,6 @@
 import FormLogin from "@/src/auth/forms/auth/FormLogin";
 import CreateAccount from "./components/atoms/CreateAccount";
 import { LoginInput } from "@/src/schemas/auth";
-import useRegister from "@/src/auth/services/hooks/useRegister";
 import { useRouter } from "next/navigation";
 import useAuthUser from "@/src/auth/services/hooks/useAuthUser";
 

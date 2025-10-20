@@ -6,7 +6,7 @@ import FormSignUp from "@/src/auth/forms/auth/FormSignUp";
 import { RegisterCredentials } from "@/src/auth/types/types";
 
 export default function SignUpPage() {
-  const { register: signUpUser, isLoading, error } = useRegister();
+  const { register: signUpUser, error } = useRegister();
 
   const router = useRouter();
 
@@ -25,7 +25,7 @@ export default function SignUpPage() {
     <main className="w-screen h-screen flex justify-center items-center">
       <div className="w-96 h-[550px] flex flex-col items-center border-2 border-soft-gray justify-evenly rounded">
         <h1 className="text-white font-bold text-4xl">Sign Up</h1>
-        <FormSignUp onSubmit={handleSignUp} isLoading={isLoading} error={error} />
+        <FormSignUp onSubmit={handleSignUp}  />
       </div>
     </main>
   );

@@ -28,22 +28,25 @@ export default function useAuthUser() {
       }
 
       return response;
-    } catch (err: any) {
+    } catch (err: unknown) {
       let errorMessage = "Ocurrió un error inesperado. Inténtalo de nuevo.";
 
-      if (err.response) {
-        switch (err.response.status) {
-          case 401:
-            errorMessage = "Credenciales incorrectas. Inténtalo de nuevo.";
-            break;
-          case 500:
-            errorMessage = "Error del servidor. Inténtalo más tarde.";
-            break;
-          default:
-            errorMessage = err.response.data?.message || errorMessage;
+      if (err && typeof err === 'object' && 'response' in err) {
+        const error = err as { response?: { status?: number; data?: { message?: string } }; request?: unknown };
+        if (error.response) {
+          switch (error.response.status) {
+            case 401:
+              errorMessage = "Credenciales incorrectas. Inténtalo de nuevo.";
+              break;
+            case 500:
+              errorMessage = "Error del servidor. Inténtalo más tarde.";
+              break;
+            default:
+              errorMessage = error.response.data?.message || errorMessage;
+          }
+        } else if (error.request) {
+          errorMessage = "Error de conexión. Verifica tu conexión a internet.";
         }
-      } else if (err.request) {
-        errorMessage = "Error de conexión. Verifica tu conexión a internet.";
       }
 
       setError(errorMessage);
