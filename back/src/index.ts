@@ -2,14 +2,15 @@ import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
 import { router } from "../routes/index.routes";
 
-const PORT = 3000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 
 const app = new Elysia()
   .use(
     cors({
       origin: [
         "http://localhost:3000",
-        "https://5db5-190-25-164-252.ngrok-free.app",
+        "http://localhost:5000",
+        "https://tasklyapp-v2.duckdns.org",
       ],
       credentials: true,
     })
@@ -17,7 +18,7 @@ const app = new Elysia()
   .use(router)
   .get("/ping", () => "pong") 
   .all("*", () => ({
-    message: "Escribe bien mono estupido",
+    message: "Ruta no encontrada",
   }))
   .listen(PORT);
 
