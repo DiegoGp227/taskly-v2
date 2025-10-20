@@ -1,5 +1,3 @@
-import ButtonCreateTask from "./components/atoms/ButtonCreateTask";
-import ButtonNewTask from "./components/atoms/ButtonNewTask";
 import TaskList from "./components/TasksList";
 
 export default function TasksPage() {

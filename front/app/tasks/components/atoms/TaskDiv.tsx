@@ -1,5 +1,4 @@
 interface tasks {
-  id: any;
   user_id?: number;
   topics_id?: number;
   title: string;
@@ -7,22 +6,19 @@ interface tasks {
   status?: number;
 }
 
-function TaskDiv({ title, id }: tasks) {
+function TaskDiv({ title }: tasks) {
   return (
     <div className="w-[95%] py-[10px] flex justify-between gap-10 border-2 border-soft-gray">
       <div>
         <form action="send" className="flex gap-3 px-2">
           <input
             type="checkbox"
-            id={`task${id}`}
             className="flex items-center gap-[12px] cursor-pointer text-[1rem] 
          px-[15px] py-[10px] rounded-[8px] bg-transparent 
          transition-colors duration-300 ease-in-out 
          select-none text-[#ccc] relative"
           />
-          <label htmlFor={`task${id}`} className="">
-            {title}
-          </label>
+          <label className="">{title}</label>
         </form>
       </div>
       <div className="flex gap-5">
