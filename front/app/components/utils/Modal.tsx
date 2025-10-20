@@ -14,7 +14,7 @@ export default function Modal({ children, onClose }: IModalProps) {
 >
       <div className="relative flex flex-col p-4 max-w-[85vw] max-h-[85vh] overflow-x-auto rounded bg-hard-gray border-2 border-soft-gray">
         <div className={`flex justify-end h-[60px] `}>
-          <button onClick={onClose}>
+          <button onClick={onClose} className="cursor-pointer">
             <FiX className={`text-white text-2xl`} />
           </button>
         </div>
