@@ -14,22 +14,23 @@ interface TasksPageProps {
 }
 
 export default function TasksPage({ params }: TasksPageProps) {
-  const [newTaskmodal, setNewTaskmodal] = useState<boolean>(false);
   const [editTaskmodal, setEditTaskmodal] = useState<boolean>(false);
   const [deleteTaskModal, setDeleteTaskModal] = useState<boolean>(false);
   const topicId = parseInt(params.id, 10);
   const {
-    todoTasks, // Tareas con status = 0
-    completedTasks, // Tareas con status = 1
-    isGetLoading, // Estado de carga del GET
-    gettasksError, // Error del GET
-    createTask, // Función para crear tareas (POST)
-    ispostLoading, // Estado de carga del POST
-    postTaskError, // Error del POST
-    refetch, // Función para recargar las tareas manualmente
-  } = useTasks({ topicId }); // ✅ Ahora pasamos topicId y el hook hace auto-fetch
+    todoTasks,
+    completedTasks,
+    isGetLoading,
+    gettasksError,
+    createTask,
+    isPostLoading,
+    postTaskError,
+    refetch,
+    updateTask,
+    isPutLoading,
+    putTaskError,
+  } = useTasks({ topicId }); 
 
-  // Validación: Mostrar error si el topicId no es válido
   if (isNaN(topicId)) {
     return (
       <div className="flex justify-center items-center h-screen text-red-500">
@@ -69,11 +70,10 @@ export default function TasksPage({ params }: TasksPageProps) {
             // Recargar tareas después de crear una nueva
             onTaskCreated={() => refetch()}
             setEditTaskmodal={setEditTaskmodal}
-            newTask={setNewTaskmodal}
             setDeleteTaskModal={setDeleteTaskModal}
             // Función centralizada para crear tareas
             createTask={createTask}
-            ispostLoading={ispostLoading}
+            ispostLoading={isPostLoading}
             postTaskError={postTaskError}
           />
 
@@ -89,20 +89,11 @@ export default function TasksPage({ params }: TasksPageProps) {
             setDeleteTaskModal={setDeleteTaskModal}
             // Función centralizada para crear tareas
             createTask={createTask}
-            ispostLoading={ispostLoading}
+            ispostLoading={isPostLoading}
             postTaskError={postTaskError}
           />
         </section>
       </div>
-
-      {/* Modal para crear nueva tarea (actualmente no se usa - TasksList tiene formulario inline) */}
-      {newTaskmodal && (
-        <Modal onClose={() => setNewTaskmodal(false)}>
-          <div className="w-96 flex flex-col">
-            <FormTaks onSubmit={() => {}} isNew={true} />
-          </div>
-        </Modal>
-      )}
 
       {/* Modal para editar tarea existente */}
       {editTaskmodal && (

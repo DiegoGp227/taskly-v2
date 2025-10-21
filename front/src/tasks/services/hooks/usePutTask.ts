@@ -1,4 +1,4 @@
-import { BaseURL } from "@/src/shared/constants/urls";
+import { BaseURL, TasksBaseURL } from "@/src/shared/constants/urls";
 import { putFetcher } from "@/utils/utils";
 import { useState } from "react";
 
@@ -14,25 +14,32 @@ interface UpdateTaskResponse {
 
 export default function usePutTask() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [error, setError] = useState<unknown>(null);
+
   const [success, setSuccess] = useState<boolean>(false);
 
-  const updateTask = async (taskId: number, taskData: UpdateTaskData): Promise<UpdateTaskResponse | null> => {
+  const updateTask = async (
+    taskId: number,
+    taskData: UpdateTaskData
+  ): Promise<UpdateTaskResponse | null> => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
-      const url = new URL(`/api/tasks/${taskId}`, BaseURL).toString();
+      const url = new URL(`${TasksBaseURL}/${taskId}`, BaseURL).toString();
 
       const response = await putFetcher<UpdateTaskResponse>(url, taskData);
 
       console.log("Task updated successfully:", response);
+
       setSuccess(true);
+
       return response;
     } catch (err) {
-      console.error("Error updating task:", err);
       setError(err);
+
       return null;
     } finally {
       setIsLoading(false);

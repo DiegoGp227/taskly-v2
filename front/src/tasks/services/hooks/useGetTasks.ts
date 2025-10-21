@@ -1,4 +1,4 @@
-import { BaseURL } from "@/src/shared/constants/urls";
+import { BaseURL, TasksBaseURL } from "@/src/shared/constants/urls";
 import { fetcher } from "@/utils/utils";
 import { useCallback, useState } from "react";
 
@@ -31,13 +31,11 @@ export default function useGetTasks() {
       setError(null);
 
       try {
-        // Construir URL para obtener todas las tareas organizadas
-        const url = new URL(`/api/tasks/${topicId}`, BaseURL).toString();
+        const url = new URL(`${TasksBaseURL}/${topicId}`, BaseURL).toString();
 
         const json = await fetcher<TasksResponse>(url);
         console.log("API response received:", json);
 
-        // El backend devuelve { todo: [...], done: [...] }
         setData(json);
       } catch (err) {
         console.error("Error fetching tasks:", err);

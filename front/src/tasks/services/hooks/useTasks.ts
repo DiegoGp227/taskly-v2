@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useGetTasks from "./useGetTasks";
 import usePostTask from "./usePostTask";
-
+import usePutTask from "./usePutTask";
 
 export default function useTasks({ topicId }: { topicId: number }) {
   const {
@@ -11,7 +11,17 @@ export default function useTasks({ topicId }: { topicId: number }) {
     fetchData: getfetchData,
   } = useGetTasks();
 
-  const { createTask, isLoading: ispostLoading, error: postTaskError } = usePostTask();
+  const {
+    createTask,
+    isLoading: isPostLoading,
+    error: postTaskError,
+  } = usePostTask();
+
+  const {
+    updateTask,
+    isLoading: isPutLoading,
+    error: putTaskError,
+  } = usePutTask();
 
   useEffect(() => {
     if (!isNaN(topicId)) {
@@ -33,11 +43,12 @@ export default function useTasks({ topicId }: { topicId: number }) {
 
     // Función para crear nuevas tareas (POST)
     createTask,
-    ispostLoading,
+    isPostLoading,
     postTaskError,
-
-    // Función para recargar las tareas manualmente
-    // Útil después de crear/editar una tarea
     refetch: () => getfetchData({ topicId }),
+
+    updateTask,
+    isPutLoading,
+    putTaskError,
   };
 }

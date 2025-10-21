@@ -12,7 +12,7 @@ interface FormTopicProps {
   isNew: boolean;
 }
 
-export default function FormNewTaks({
+export default function FormTaks({
   onSubmit,
   isLoading,
   error,

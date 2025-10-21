@@ -72,14 +72,34 @@ export const deleteFetcher = async (
   }
 };
 
+/**
+ * Función helper para realizar peticiones PUT
+ *
+ * @param url - URL del endpoint
+ * @param params - Datos a enviar en el body (acepta objetos o FormData)
+ * @param contentType - Tipo de contenido (por defecto application/json)
+ * @returns Promise con los datos de la respuesta tipados como T
+ *
+ * @example
+ * ```typescript
+ * interface UpdateResponse {
+ *   message: string;
+ * }
+ *
+ * const response = await putFetcher<UpdateResponse>(
+ *   '/api/tasks/123',
+ *   { title: 'Nueva tarea' }
+ * );
+ * ```
+ */
 export const putFetcher = async <T>(
   url: string, // URL del recurso a actualizar
-  params: T, // Datos que se enviarán en el cuerpo de la solicitud
+  params: Record<string, any> | FormData, // Datos que se enviarán en el cuerpo de la solicitud
   contentType?: string // Tipo de contenido opcional (si es necesario)
-) => {
+): Promise<T> => {
   try {
     // Usa apiClient para realizar la solicitud PUT
-    const response = await apiClient.put(url, params, {
+    const response = await apiClient.put<T>(url, params, {
       headers: {
         "Content-Type": contentType ? contentType : "application/json",
       },
