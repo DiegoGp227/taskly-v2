@@ -22,7 +22,14 @@ interface TasksPageProps {
   };
 }
 
+interface TaskFormData {
+  title: string;
+  priority?: number;
+  status?: number;
+}
+
 export default function TasksPage({ params }: TasksPageProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [newTaskmodal, setNewTaskmodal] = useState<boolean>(false);
   const [editTaskmodal, setEditTaskmodal] = useState<boolean>(false);
   const [deleteTaskModal, setDeleteTaskModal] = useState<boolean>(false);
@@ -41,6 +48,7 @@ export default function TasksPage({ params }: TasksPageProps) {
     isPutLoading,
     putTaskError,
     deleteTask,
+    isDeleteLoading,
   } = useTasks({ topicId });
 
   const handleEditTask = (task: Task) => {
@@ -53,7 +61,7 @@ export default function TasksPage({ params }: TasksPageProps) {
     setDeleteTaskModal(true);
   };
 
-  const handleUpdateTask = async (taskData: any) => {
+  const handleUpdateTask = async (taskData: TaskFormData) => {
     if (!selectedTask) return;
 
     const result = await updateTask(selectedTask.id, {
@@ -164,14 +172,17 @@ export default function TasksPage({ params }: TasksPageProps) {
       )}
 
       {deleteTaskModal && selectedTask && (
-        <Modal onClose={() => {
-          setDeleteTaskModal(false);
-          setSelectedTask(null);
-        }}>
+        <Modal
+          onClose={() => {
+            setDeleteTaskModal(false);
+            setSelectedTask(null);
+          }}
+        >
           <div className="w-80 flex flex-col">
             <ComfirmDelete
               setDeleteTaskModal={setDeleteTaskModal}
               deleteTask={handleDeleteTask}
+              isDeleteLoading={isDeleteLoading}
             />
           </div>
         </Modal>

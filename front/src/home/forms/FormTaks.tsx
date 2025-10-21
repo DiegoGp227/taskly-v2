@@ -23,7 +23,7 @@ export default function FormTaks({
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors},
   } = useForm<TopicInput>({
     resolver: zodResolver(topicSchema),
     defaultValues: initialData,
