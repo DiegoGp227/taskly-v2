@@ -1,9 +1,11 @@
+import { useRouter } from "next/navigation";
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
 
 interface IButtonTopicCardProps {
   title?: string;
   description?: string;
+  topicId?: number;
   changeVisivilityEdit?: () => void;
   changeRendering?: () => void;
 }
@@ -11,11 +13,17 @@ interface IButtonTopicCardProps {
 export default function ButtonTopicCard({
   title,
   description,
+  topicId,
   changeVisivilityEdit,
   changeRendering,
 }: IButtonTopicCardProps) {
+  const router = useRouter();
+
   return (
-    <button className="w-[300px] h-[200px] border-2 border-soft-gray rounded-[5px] p-5 hover:border-green-500 flex flex-col justify-between">
+    <button
+      className="w-[300px] h-[200px] border-2 border-soft-gray rounded-[5px] p-5 hover:border-green-500 flex flex-col justify-between"
+      onClick={() => router.push(`/tasks/${topicId}`)}
+    >
       <div className="flex flex-col gap-2">
         <h1 className="text-white text-4xl">{title}</h1>
         <p className="text-start text-white">{description}</p>

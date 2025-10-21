@@ -34,6 +34,7 @@ export default function HomePage() {
           title={topic.title}
           description={topic.description || ""}
           changeRendering={() => refresh()}
+          topicId={topic.id}
         />
       ))}
       {modal && (
