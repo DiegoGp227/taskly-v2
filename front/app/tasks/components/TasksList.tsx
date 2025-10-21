@@ -30,6 +30,7 @@ interface TaskListProps {
   tasks?: Task[];
   topicId: number;
   onTaskCreated?: () => void;
+  onEditTask?: (task: Task) => void;
   newTask?: (value: boolean) => void;
   setEditTaskmodal: (value: boolean) => void;
   setDeleteTaskModal: (value: boolean) => void;
@@ -48,6 +49,7 @@ function TaskList({
   tasks = [],
   topicId,
   onTaskCreated,
+  onEditTask,
   newTask,
   setEditTaskmodal,
   setDeleteTaskModal,
@@ -66,27 +68,21 @@ function TaskList({
     formState: { errors },
   } = useForm<FormData>();
 
-  /**
-   * Manejador del submit del formulario
-   * Crea una nueva tarea usando la función createTask centralizada
-   */
   const onSubmit = async (data: FormData) => {
-    // Construir el objeto con todos los datos necesarios para crear la tarea
     const taskData = {
-      topics_id: topicId, // ID del topic actual
-      title: data.title, // Título del formulario
-      priority: 2, // Prioridad media por defecto (1-5)
-      status: tasksStatus, // Status de la lista (0=To Do, 1=Complete)
+      topics_id: topicId,
+      title: data.title,
+      priority: 2,
+      status: tasksStatus, 
     };
 
-    // Llamar a la función createTask que viene del hook centralizado
     const result = await createTask(taskData);
 
     if (result) {
-      reset(); // Limpiar formulario
-      setShowForm(false); // Ocultar formulario
+      reset(); 
+      setShowForm(false); 
       if (onTaskCreated) {
-        onTaskCreated(); // Recargar tareas
+        onTaskCreated(); 
       }
     }
   };
@@ -102,7 +98,9 @@ function TaskList({
           tasks.map((task) => (
             <TaskDiv
               key={task.id}
+              task={task}
               title={task.title}
+              onEdit={() => onEditTask && onEditTask(task)}
               setEditTaskmodal={setEditTaskmodal}
               setDeleteTaskModal={setDeleteTaskModal}
             />

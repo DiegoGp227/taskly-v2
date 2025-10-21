@@ -7,16 +7,18 @@ import { TopicInput, topicSchema } from "@/src/schemas/home";
 
 interface FormTopicProps {
   onSubmit: (data: TopicInput) => void;
-  isLoading?: boolean;
-  error?: string | null;
+  putTaskError?: string | null | unknown;
   isNew: boolean;
+  initialData?: Partial<TopicInput>;
+  isPutLoading: boolean;
 }
 
 export default function FormTaks({
   onSubmit,
-  isLoading,
-  error,
+  putTaskError,
   isNew,
+  initialData,
+  isPutLoading,
 }: FormTopicProps) {
   const {
     register,
@@ -24,6 +26,7 @@ export default function FormTaks({
     formState: { errors, isSubmitting },
   } = useForm<TopicInput>({
     resolver: zodResolver(topicSchema),
+    defaultValues: initialData,
   });
 
   return (
@@ -51,15 +54,17 @@ export default function FormTaks({
       </div>
 
       {/* Error general */}
-      {error && <p className="text-red-500 text-sm mt-2 mx-3">{error}</p>}
+      {!!putTaskError && (
+        <p className="text-red-500 text-sm mt-2 mx-3">Error al actualizar la tarea</p>
+      )}
 
       <button
         className="button flex items-center justify-center gap-2"
         type="submit"
-        disabled={isSubmitting || isLoading}
+        disabled={isPutLoading}
       >
-        <span>{isLoading ? "Loading..." : "Send"}</span>
-        {!isLoading && <LuSendHorizontal size={20} />}
+        <span>{isPutLoading ? "Loading..." : "Send"}</span>
+        {!isPutLoading && <LuSendHorizontal size={20} />}
       </button>
     </form>
   );

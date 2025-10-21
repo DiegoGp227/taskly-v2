@@ -2,16 +2,24 @@ import { FaRegEdit } from "react-icons/fa";
 import ButtonAction from "./ButtonAction";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 
-interface tasks {
-  user_id?: number;
-  topics_id?: number;
+interface Task {
+  id: number;
+  user_id: number;
+  topics_id: number;
   title: string;
-  priority?: number;
-  status?: number;
+  priority: number;
+  status: number;
+}
+
+interface TaskDivProps {
+  task?: Task;
+  title: string;
+  onEdit?: () => void;
   setEditTaskmodal: (value: boolean) => void;
   setDeleteTaskModal: (value: boolean) => void;
 }
-function TaskDiv({ title, setEditTaskmodal, setDeleteTaskModal }: tasks) {
+
+function TaskDiv({ title, onEdit, setEditTaskmodal, setDeleteTaskModal }: TaskDivProps) {
   return (
     <div className="w-[95%] py-[10px] flex justify-between gap-10 border-2 border-soft-gray">
       <div>
@@ -25,7 +33,13 @@ function TaskDiv({ title, setEditTaskmodal, setDeleteTaskModal }: tasks) {
       </div>
       <div className="flex min-w-2 mr-3">
         <ButtonAction
-          onClick={() => setEditTaskmodal(true)}
+          onClick={() => {
+            if (onEdit) {
+              onEdit();
+            } else {
+              setEditTaskmodal(true);
+            }
+          }}
           icon={FaRegEdit}
           color="#fff"
         />

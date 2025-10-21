@@ -7,6 +7,15 @@ import FormTaks from "@/src/home/forms/FormTaks";
 import ComfirmDelete from "../components/molecules/ComfirmDelete";
 import useTasks from "@/src/tasks/services/hooks/useTasks";
 
+interface Task {
+  id: number;
+  user_id: number;
+  topics_id: number;
+  title: string;
+  priority: number;
+  status: number;
+}
+
 interface TasksPageProps {
   params: {
     id: string;
@@ -14,8 +23,10 @@ interface TasksPageProps {
 }
 
 export default function TasksPage({ params }: TasksPageProps) {
+  const [newTaskmodal, setNewTaskmodal] = useState<boolean>(false);
   const [editTaskmodal, setEditTaskmodal] = useState<boolean>(false);
   const [deleteTaskModal, setDeleteTaskModal] = useState<boolean>(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const topicId = parseInt(params.id, 10);
   const {
     todoTasks,
@@ -29,7 +40,28 @@ export default function TasksPage({ params }: TasksPageProps) {
     updateTask,
     isPutLoading,
     putTaskError,
-  } = useTasks({ topicId }); 
+  } = useTasks({ topicId });
+
+  const handleEditTask = (task: Task) => {
+    setSelectedTask(task);
+    setEditTaskmodal(true);
+  };
+
+  const handleUpdateTask = async (taskData: any) => {
+    if (!selectedTask) return;
+
+    const result = await updateTask(selectedTask.id, {
+      title: taskData.title,
+      priority: taskData.priority,
+      status: taskData.status,
+    });
+
+    if (result) {
+      setEditTaskmodal(false);
+      setSelectedTask(null);
+      refetch();
+    }
+  };
 
   if (isNaN(topicId)) {
     return (
@@ -39,7 +71,6 @@ export default function TasksPage({ params }: TasksPageProps) {
     );
   }
 
-  // Mostrar loading mientras se cargan las tareas
   if (isGetLoading) {
     return (
       <div className="flex justify-center items-center h-screen text-white">
@@ -48,7 +79,6 @@ export default function TasksPage({ params }: TasksPageProps) {
     );
   }
 
-  // Mostrar error si falló la carga de tareas
   if (gettasksError) {
     return (
       <div className="flex justify-center items-center h-screen text-red-500">
@@ -61,33 +91,30 @@ export default function TasksPage({ params }: TasksPageProps) {
     <>
       <div>
         <section className="flex justify-center gap-10 my-10">
-          {/* Lista de tareas "To Do" (status = 0) */}
           <TaskList
             title="To Do"
             tasksStatus={0}
             tasks={todoTasks}
             topicId={topicId}
-            // Recargar tareas después de crear una nueva
             onTaskCreated={() => refetch()}
+            onEditTask={handleEditTask}
+            newTask={setNewTaskmodal}
             setEditTaskmodal={setEditTaskmodal}
             setDeleteTaskModal={setDeleteTaskModal}
-            // Función centralizada para crear tareas
             createTask={createTask}
             ispostLoading={isPostLoading}
             postTaskError={postTaskError}
           />
 
-          {/* Lista de tareas "Complete" (status = 1) */}
           <TaskList
             title="Complete"
             tasksStatus={1}
             tasks={completedTasks}
             topicId={topicId}
-            // Recargar tareas después de crear una nueva
             onTaskCreated={() => refetch()}
+            onEditTask={handleEditTask}
             setEditTaskmodal={setEditTaskmodal}
             setDeleteTaskModal={setDeleteTaskModal}
-            // Función centralizada para crear tareas
             createTask={createTask}
             ispostLoading={isPostLoading}
             postTaskError={postTaskError}
@@ -95,16 +122,27 @@ export default function TasksPage({ params }: TasksPageProps) {
         </section>
       </div>
 
-      {/* Modal para editar tarea existente */}
-      {editTaskmodal && (
-        <Modal onClose={() => setEditTaskmodal(false)}>
+      {editTaskmodal && selectedTask && (
+        <Modal
+          onClose={() => {
+            setEditTaskmodal(false);
+            setSelectedTask(null);
+          }}
+        >
           <div className="w-96 flex flex-col">
-            <FormTaks onSubmit={() => {}} isNew={false} />
+            <FormTaks
+              onSubmit={handleUpdateTask}
+              isNew={false}
+              initialData={{
+                title: selectedTask.title,
+              }}
+              isPutLoading={isPutLoading}
+              putTaskError={putTaskError}
+            />
           </div>
         </Modal>
       )}
 
-      {/* Modal para confirmar eliminación de tarea */}
       {deleteTaskModal && (
         <Modal onClose={() => setDeleteTaskModal(false)}>
           <div className="w-80 flex flex-col">
