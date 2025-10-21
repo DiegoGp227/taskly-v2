@@ -1,16 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TaskList from "./components/TasksList";
 import Modal from "../components/utils/Modal";
 import FormTaks from "@/src/home/forms/FormTaks";
 import ComfirmDelete from "./components/molecules/ComfirmDelete";
+import useGetTasks from "@/src/tasks/services/useGetTasks";
 
 export default function TasksPage() {
   const [newTaskmodal, setNewTaskmodal] = useState<boolean>(false);
   const [editTaskmodal, setEditTaskmodal] = useState<boolean>(false);
   const [deleteTaskModal, setDeleteTaskModal] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+
+  const topicId = 1;
+
+  // Usar el hook para obtener las tareas
+  const { data: tasksData, isLoading, error: tasksError, fetchData } = useGetTasks();
+
+  // Cargar tareas cuando se monta el componente
+  useEffect(() => {
+    fetchData({ topicId });
+  }, [topicId, fetchData]);
+
+  // Obtener tareas ya organizadas del backend
+  const todoTasks = tasksData?.todo || [];
+  const completedTasks = tasksData?.done || [];
+
+  // Mostrar loading
+  if (isLoading) {
+    return <div className="flex justify-center items-center h-screen text-white">Cargando tareas...</div>;
+  }
+
+  // Mostrar error
+  if (tasksError) {
+    return <div className="flex justify-center items-center h-screen text-red-500">Error: {String(tasksError)}</div>;
+  }
 
   return (
     <>
@@ -19,6 +44,7 @@ export default function TasksPage() {
           <TaskList
             title="To Do"
             tasksStatus={0}
+            tasks={todoTasks}
             setEditTaskmodal={setEditTaskmodal}
             newTask={setNewTaskmodal}
             setDeleteTaskModal={setDeleteTaskModal}
@@ -26,6 +52,7 @@ export default function TasksPage() {
           <TaskList
             title="Complete"
             tasksStatus={1}
+            tasks={completedTasks}
             setEditTaskmodal={setEditTaskmodal}
             setDeleteTaskModal={setDeleteTaskModal}
           />

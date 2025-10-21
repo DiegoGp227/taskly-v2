@@ -29,7 +29,7 @@ const tasksUpdateSchema = z.object({
 export const tasks = new Elysia({ prefix: "/tasks" })
   .use(jwtPlugin)
 
-  // 🔹 GET /api/tasks/:topicId/status/:status - Obtener tareas de un topic filtradas por estado
+  // 🔹 GET /api/tasks/:topicId/status/:status - Obtener tareas de un topic filtradas por estado (opcional)
   .get("/:topicId/status/:status", async ({ jwt, request, params: { topicId, status }, set }) => {
     try {
       const authHeader = request.headers.get("authorization");
@@ -54,6 +54,45 @@ export const tasks = new Elysia({ prefix: "/tasks" })
       return data;
     } catch (error) {
       console.error("Error al obtener las tareas por estado:", error);
+      set.status = 500;
+      return { message: "Error del servidor" };
+    }
+  })
+
+  // 🔹 GET /api/tasks/:topicId - Obtener todas las tareas de un topic organizadas por status
+  .get("/:topicId", async ({ jwt, request, params: { topicId }, set }) => {
+    try {
+      const authHeader = request.headers.get("authorization");
+      if (!authHeader) {
+        set.status = 401;
+        return { error: "No token provided" };
+      }
+
+      const token = authHeader.split(" ")[1];
+      const decoded = await jwt.verify(token);
+      if (!decoded || !decoded.id) {
+        set.status = 403;
+        return { error: "Invalid token" };
+      }
+
+      const userId = decoded.id;
+
+      // Obtener todas las tareas del topic
+      const [allTasks] = await db.query<Task[]>(
+        "SELECT * FROM tasks WHERE user_id = ? AND topics_id = ?",
+        [userId, topicId]
+      );
+
+      // Organizar tareas por status
+      const todo = allTasks.filter(task => task.status === 0);
+      const done = allTasks.filter(task => task.status === 1);
+
+      return {
+        todo,
+        done,
+      };
+    } catch (error) {
+      console.error("Error al obtener las tareas:", error);
       set.status = 500;
       return { message: "Error del servidor" };
     }

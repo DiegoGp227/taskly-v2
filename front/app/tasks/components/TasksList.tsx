@@ -1,25 +1,27 @@
 import TaskDiv from "./atoms/TaskDiv";
 import TaskNotFound from "./atoms/TasksNotFound";
 
+interface Task {
+  id: number;
+  user_id: number;
+  topics_id: number;
+  title: string;
+  priority: number;
+  status: number;
+}
+
 interface TaskListProps {
   title: string;
   tasksStatus: number;
+  tasks?: Task[];
   newTask?: (value: boolean) => void;
   setEditTaskmodal: (value: boolean) => void;
   setDeleteTaskModal: (value: boolean) => void;
 }
 
-// interface TasksData {
-//   id: number;
-//   user_id: number;
-//   topics_id: number;
-//   title: string;
-//   priority: number;
-//   status: number;
-// }
-
 function TaskList({
   title,
+  tasks = [],
   newTask,
   setEditTaskmodal,
   setDeleteTaskModal,
@@ -31,23 +33,18 @@ function TaskList({
       </div>
 
       <div className="w-full flex flex-col justify-start items-center flex-grow gap-2">
-        <TaskDiv
-          title="Ejemplo de tarea"
-          setEditTaskmodal={setEditTaskmodal}
-          setDeleteTaskModal={setDeleteTaskModal}
-        />
-        <TaskDiv
-          title="Ejemplo de tarea"
-          setEditTaskmodal={setEditTaskmodal}
-          setDeleteTaskModal={setDeleteTaskModal}
-        />
-        <TaskDiv
-          title="Ejemplo de tarea"
-          setEditTaskmodal={setEditTaskmodal}
-          setDeleteTaskModal={setDeleteTaskModal}
-        />
-
-        <TaskNotFound />
+        {tasks.length > 0 ? (
+          tasks.map((task) => (
+            <TaskDiv
+              key={task.id}
+              title={task.title}
+              setEditTaskmodal={setEditTaskmodal}
+              setDeleteTaskModal={setDeleteTaskModal}
+            />
+          ))
+        ) : (
+          <TaskNotFound />
+        )}
       </div>
 
       {newTask && (
