@@ -23,7 +23,7 @@ export const fetcher = async <T>(url: string): Promise<T> => {
 
 export const postFetcher = async <T>(
   url: string,
-  params: Record<string, string> | FormData,
+  params: Record<string, any> | FormData,
   contentType?: string
 ): Promise<T> => {
   try {

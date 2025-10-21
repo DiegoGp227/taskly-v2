@@ -103,7 +103,7 @@ function TaskList({
               {errors.title && (
                 <span className="text-red-500 text-sm">{errors.title.message}</span>
               )}
-              {postError && (
+              {!!postError && (
                 <span className="text-red-500 text-sm">Error al crear la tarea</span>
               )}
               <div className="flex gap-2">
