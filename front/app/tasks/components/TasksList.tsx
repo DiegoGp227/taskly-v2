@@ -2,7 +2,6 @@ import TaskDiv from "./atoms/TaskDiv";
 import TaskNotFound from "./atoms/TasksNotFound";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import usePostTask from "@/src/tasks/services/usePostTask";
 
 interface Task {
   id: number;
@@ -11,6 +10,18 @@ interface Task {
   title: string;
   priority: number;
   status: number;
+}
+
+interface TaskData {
+  topics_id: number;
+  title: string;
+  priority: number;
+  status: number;
+}
+
+interface PostTaskResponse {
+  message: string;
+  taskId: number;
 }
 
 interface TaskListProps {
@@ -22,6 +33,9 @@ interface TaskListProps {
   newTask?: (value: boolean) => void;
   setEditTaskmodal: (value: boolean) => void;
   setDeleteTaskModal: (value: boolean) => void;
+  createTask: (taskData: TaskData) => Promise<PostTaskResponse | null>;
+  ispostLoading: boolean;
+  postTaskError: unknown;
 }
 
 interface FormData {
@@ -37,19 +51,35 @@ function TaskList({
   newTask,
   setEditTaskmodal,
   setDeleteTaskModal,
+  createTask,
+  ispostLoading,
+  postTaskError,
 }: TaskListProps) {
+  // Estado para mostrar/ocultar el formulario inline
   const [showForm, setShowForm] = useState(false);
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
-  const { createTask, isLoading, error: postError } = usePostTask();
 
+  // React Hook Form para manejar el formulario de creación
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  /**
+   * Manejador del submit del formulario
+   * Crea una nueva tarea usando la función createTask centralizada
+   */
   const onSubmit = async (data: FormData) => {
+    // Construir el objeto con todos los datos necesarios para crear la tarea
     const taskData = {
-      topics_id: topicId,
-      title: data.title,
-      priority: 2, // Medium priority por defecto
-      status: tasksStatus, // Usa el status de la lista (0 para To Do, 1 para Done)
+      topics_id: topicId, // ID del topic actual
+      title: data.title, // Título del formulario
+      priority: 2, // Prioridad media por defecto (1-5)
+      status: tasksStatus, // Status de la lista (0=To Do, 1=Complete)
     };
 
+    // Llamar a la función createTask que viene del hook centralizado
     const result = await createTask(taskData);
 
     if (result) {
@@ -92,27 +122,34 @@ function TaskList({
               New Task
             </button>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-2">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="w-full flex flex-col gap-2"
+            >
               <input
                 {...register("title", { required: "El título es obligatorio" })}
                 type="text"
                 placeholder="Título de la tarea"
                 className="w-full py-2 px-3 bg-hard-gray border-2 border-soft-gray text-white rounded focus:border-green outline-none"
-                disabled={isLoading}
+                disabled={ispostLoading}
               />
               {errors.title && (
-                <span className="text-red-500 text-sm">{errors.title.message}</span>
+                <span className="text-red-500 text-sm">
+                  {errors.title.message}
+                </span>
               )}
-              {!!postError && (
-                <span className="text-red-500 text-sm">Error al crear la tarea</span>
+              {!!postTaskError && (
+                <span className="text-red-500 text-sm">
+                  Error al crear la tarea
+                </span>
               )}
               <div className="flex gap-2">
                 <button
                   type="submit"
                   className="flex-1 py-2 bg-green text-black cursor-pointer hover:bg-opacity-80 rounded"
-                  disabled={isLoading}
+                  disabled={ispostLoading}
                 >
-                  {isLoading ? "Creando..." : "Crear"}
+                  {ispostLoading ? "Creando..." : "Crear"}
                 </button>
                 <button
                   type="button"
@@ -121,7 +158,7 @@ function TaskList({
                     reset();
                   }}
                   className="flex-1 py-2 border-2 border-soft-gray text-white cursor-pointer hover:border-green rounded"
-                  disabled={isLoading}
+                  disabled={ispostLoading}
                 >
                   Cancelar
                 </button>
