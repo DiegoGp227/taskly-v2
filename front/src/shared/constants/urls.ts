@@ -10,5 +10,5 @@ export const TopicsURL = new URL("/api/topics", BaseURL);
 
 // export const Tasks = new URL("/api/tasks/", BaseURL);
 
-export const TasksURL = (topicId: number, status: number) =>
-  new URL(`/api/tasks/${topicId}/status/${status}`, BaseURL);
+export const TasksURL = (topicId: number) =>
+  new URL(`/api/tasks/${topicId}/status`, BaseURL);

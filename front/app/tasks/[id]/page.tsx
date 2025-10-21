@@ -1,38 +1,47 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TaskList from "./components/TasksList";
-import Modal from "../components/utils/Modal";
+import TaskList from "../components/TasksList";
+import Modal from "../../components/utils/Modal";
 import FormTaks from "@/src/home/forms/FormTaks";
-import ComfirmDelete from "./components/molecules/ComfirmDelete";
+import ComfirmDelete from "../components/molecules/ComfirmDelete";
 import useGetTasks from "@/src/tasks/services/useGetTasks";
 
-export default function TasksPage() {
+interface TasksPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function TasksPage({ params }: TasksPageProps) {
   const [newTaskmodal, setNewTaskmodal] = useState<boolean>(false);
   const [editTaskmodal, setEditTaskmodal] = useState<boolean>(false);
   const [deleteTaskModal, setDeleteTaskModal] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const topicId = 1;
+  // Obtener topicId del parámetro de la URL
+  const topicId = parseInt(params.id, 10);
 
-  // Usar el hook para obtener las tareas
   const { data: tasksData, isLoading, error: tasksError, fetchData } = useGetTasks();
 
-  // Cargar tareas cuando se monta el componente
   useEffect(() => {
-    fetchData({ topicId });
+    if (!isNaN(topicId)) {
+      fetchData({ topicId });
+    }
   }, [topicId, fetchData]);
 
-  // Obtener tareas ya organizadas del backend
   const todoTasks = tasksData?.todo || [];
   const completedTasks = tasksData?.done || [];
 
-  // Mostrar loading
+  // Validar que el topicId sea un número válido
+  if (isNaN(topicId)) {
+    return <div className="flex justify-center items-center h-screen text-red-500">ID de topic inválido</div>;
+  }
+
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen text-white">Cargando tareas...</div>;
   }
 
-  // Mostrar error
   if (tasksError) {
     return <div className="flex justify-center items-center h-screen text-red-500">Error: {String(tasksError)}</div>;
   }
@@ -45,6 +54,8 @@ export default function TasksPage() {
             title="To Do"
             tasksStatus={0}
             tasks={todoTasks}
+            topicId={topicId}
+            onTaskCreated={() => fetchData({ topicId })}
             setEditTaskmodal={setEditTaskmodal}
             newTask={setNewTaskmodal}
             setDeleteTaskModal={setDeleteTaskModal}
@@ -53,6 +64,8 @@ export default function TasksPage() {
             title="Complete"
             tasksStatus={1}
             tasks={completedTasks}
+            topicId={topicId}
+            onTaskCreated={() => fetchData({ topicId })}
             setEditTaskmodal={setEditTaskmodal}
             setDeleteTaskModal={setDeleteTaskModal}
           />
