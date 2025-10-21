@@ -31,6 +31,7 @@ interface TaskListProps {
   topicId: number;
   onTaskCreated?: () => void;
   onEditTask?: (task: Task) => void;
+  onDeleteTask?: (task: Task) => void;
   newTask?: (value: boolean) => void;
   setEditTaskmodal: (value: boolean) => void;
   setDeleteTaskModal: (value: boolean) => void;
@@ -50,6 +51,7 @@ function TaskList({
   topicId,
   onTaskCreated,
   onEditTask,
+  onDeleteTask,
   newTask,
   setEditTaskmodal,
   setDeleteTaskModal,
@@ -101,6 +103,7 @@ function TaskList({
               task={task}
               title={task.title}
               onEdit={() => onEditTask && onEditTask(task)}
+              onDelete={() => onDeleteTask && onDeleteTask(task)}
               setEditTaskmodal={setEditTaskmodal}
               setDeleteTaskModal={setDeleteTaskModal}
             />

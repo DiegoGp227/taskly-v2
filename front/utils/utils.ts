@@ -27,93 +27,61 @@ export const postFetcher = async <T>(
   contentType?: string
 ): Promise<T> => {
   try {
-    // Usa apiClient para realizar la solicitud
     const response = await apiClient.post<T>(url, params, {
       headers: {
         "Content-Type": contentType ? contentType : "application/json",
       },
     });
 
-    // Devuelve los datos de la respuesta
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
 
-    // Registra el error en la consola para depuración
     console.error(`Error in postFetcher for ${url}:`, axiosError);
 
-    // Lanza el error completo para que el código que llama pueda manejarlo
     throw axiosError;
   }
 };
 
 export const deleteFetcher = async (
-  url: string, // URL del recurso a eliminar
-  contentType?: string // Tipo de contenido opcional (si es necesario)
+  url: string, 
+  contentType?: string 
 ) => {
   try {
-    // Usa apiClient para realizar la solicitud DELETE
     const response = await apiClient.delete(url, {
       headers: {
         "Content-Type": contentType ? contentType : "application/json",
       },
     });
 
-    // Devuelve los datos de la respuesta
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
 
-    // Registra el error en la consola para depuración
     console.error(`Error in deleteFetcher for ${url}:`, axiosError);
 
-    // Lanza el error completo para que el código que llama pueda manejarlo
     throw axiosError;
   }
 };
 
-/**
- * Función helper para realizar peticiones PUT
- *
- * @param url - URL del endpoint
- * @param params - Datos a enviar en el body (acepta objetos o FormData)
- * @param contentType - Tipo de contenido (por defecto application/json)
- * @returns Promise con los datos de la respuesta tipados como T
- *
- * @example
- * ```typescript
- * interface UpdateResponse {
- *   message: string;
- * }
- *
- * const response = await putFetcher<UpdateResponse>(
- *   '/api/tasks/123',
- *   { title: 'Nueva tarea' }
- * );
- * ```
- */
 export const putFetcher = async <T>(
-  url: string, // URL del recurso a actualizar
-  params: Record<string, any> | FormData, // Datos que se enviarán en el cuerpo de la solicitud
-  contentType?: string // Tipo de contenido opcional (si es necesario)
+  url: string, 
+  params: Record<string, any> | FormData, 
+  contentType?: string 
 ): Promise<T> => {
   try {
-    // Usa apiClient para realizar la solicitud PUT
     const response = await apiClient.put<T>(url, params, {
       headers: {
         "Content-Type": contentType ? contentType : "application/json",
       },
     });
 
-    // Devuelve los datos de la respuesta
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
 
-    // Registra el error en la consola para depuración
     console.error(`Error in putFetcher for ${url}:`, axiosError);
 
-    // Lanza el error completo para que el código que llama pueda manejarlo
     throw axiosError;
   }
 };

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import useGetTasks from "./useGetTasks";
 import usePostTask from "./usePostTask";
 import usePutTask from "./usePutTask";
+import useDeleteTask from "./useDeleteTask";
 
 export default function useTasks({ topicId }: { topicId: number }) {
   const {
@@ -22,6 +23,12 @@ export default function useTasks({ topicId }: { topicId: number }) {
     isLoading: isPutLoading,
     error: putTaskError,
   } = usePutTask();
+
+  const {
+    deleteTask,
+    isLoading: isDeleteLoading,
+    error: deleteTaskError,
+  } = useDeleteTask();
 
   useEffect(() => {
     if (!isNaN(topicId)) {
@@ -50,5 +57,9 @@ export default function useTasks({ topicId }: { topicId: number }) {
     updateTask,
     isPutLoading,
     putTaskError,
+
+    deleteTask,
+    isDeleteLoading,
+    deleteTaskError,
   };
 }

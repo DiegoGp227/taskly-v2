@@ -15,11 +15,12 @@ interface TaskDivProps {
   task?: Task;
   title: string;
   onEdit?: () => void;
+  onDelete?: () => void;
   setEditTaskmodal: (value: boolean) => void;
   setDeleteTaskModal: (value: boolean) => void;
 }
 
-function TaskDiv({ title, onEdit, setEditTaskmodal, setDeleteTaskModal }: TaskDivProps) {
+function TaskDiv({ title, onEdit, onDelete, setEditTaskmodal, setDeleteTaskModal }: TaskDivProps) {
   return (
     <div className="w-[95%] py-[10px] flex justify-between gap-10 border-2 border-soft-gray">
       <div>
@@ -44,7 +45,13 @@ function TaskDiv({ title, onEdit, setEditTaskmodal, setDeleteTaskModal }: TaskDi
           color="#fff"
         />
         <ButtonAction
-          onClick={() => setDeleteTaskModal(true)}
+          onClick={() => {
+            if (onDelete) {
+              onDelete();
+            } else {
+              setDeleteTaskModal(true);
+            }
+          }}
           icon={RiDeleteBin6Fill}
           color="#ff0000"
         />

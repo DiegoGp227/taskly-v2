@@ -40,11 +40,17 @@ export default function TasksPage({ params }: TasksPageProps) {
     updateTask,
     isPutLoading,
     putTaskError,
+    deleteTask,
   } = useTasks({ topicId });
 
   const handleEditTask = (task: Task) => {
     setSelectedTask(task);
     setEditTaskmodal(true);
+  };
+
+  const handleDeleteClick = (task: Task) => {
+    setSelectedTask(task);
+    setDeleteTaskModal(true);
   };
 
   const handleUpdateTask = async (taskData: any) => {
@@ -58,6 +64,18 @@ export default function TasksPage({ params }: TasksPageProps) {
 
     if (result) {
       setEditTaskmodal(false);
+      setSelectedTask(null);
+      refetch();
+    }
+  };
+
+  const handleDeleteTask = async () => {
+    if (!selectedTask) return;
+
+    const result = await deleteTask(selectedTask.id);
+
+    if (result) {
+      setDeleteTaskModal(false);
       setSelectedTask(null);
       refetch();
     }
@@ -98,6 +116,7 @@ export default function TasksPage({ params }: TasksPageProps) {
             topicId={topicId}
             onTaskCreated={() => refetch()}
             onEditTask={handleEditTask}
+            onDeleteTask={handleDeleteClick}
             newTask={setNewTaskmodal}
             setEditTaskmodal={setEditTaskmodal}
             setDeleteTaskModal={setDeleteTaskModal}
@@ -113,6 +132,7 @@ export default function TasksPage({ params }: TasksPageProps) {
             topicId={topicId}
             onTaskCreated={() => refetch()}
             onEditTask={handleEditTask}
+            onDeleteTask={handleDeleteClick}
             setEditTaskmodal={setEditTaskmodal}
             setDeleteTaskModal={setDeleteTaskModal}
             createTask={createTask}
@@ -143,10 +163,16 @@ export default function TasksPage({ params }: TasksPageProps) {
         </Modal>
       )}
 
-      {deleteTaskModal && (
-        <Modal onClose={() => setDeleteTaskModal(false)}>
+      {deleteTaskModal && selectedTask && (
+        <Modal onClose={() => {
+          setDeleteTaskModal(false);
+          setSelectedTask(null);
+        }}>
           <div className="w-80 flex flex-col">
-            <ComfirmDelete setDeleteTaskModal={setDeleteTaskModal} />
+            <ComfirmDelete
+              setDeleteTaskModal={setDeleteTaskModal}
+              deleteTask={handleDeleteTask}
+            />
           </div>
         </Modal>
       )}
