@@ -1,4 +1,4 @@
-import { TopicsURL } from "@/src/shared/constants/urls";
+import { TasksURL } from "@/src/shared/constants/urls";
 import { deleteFetcher } from "@/utils/utils";
 import { useState } from "react";
 
@@ -17,7 +17,7 @@ export default function useDeleteTask() {
     setError(null);
 
     try {
-      const url = new URL(`${TopicsURL}/${taskId}`).toString();
+      const url = new URL(`${TasksURL}/${taskId}`).toString();
 
       const response = await deleteFetcher(url) as DeleteTaskResponse;
 

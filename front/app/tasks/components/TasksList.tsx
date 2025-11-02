@@ -2,6 +2,7 @@ import TaskDiv from "./atoms/TaskDiv";
 import TaskNotFound from "./atoms/TasksNotFound";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 
 interface Task {
   id: number;
@@ -32,6 +33,8 @@ interface TaskListProps {
   onTaskCreated?: () => void;
   onEditTask?: (task: Task) => void;
   onDeleteTask?: (task: Task) => void;
+  onToggleStatus?: (task: Task) => void;
+  updatingTaskId?: number | null;
   newTask?: (value: boolean) => void;
   setEditTaskmodal: (value: boolean) => void;
   setDeleteTaskModal: (value: boolean) => void;
@@ -52,6 +55,8 @@ function TaskList({
   onTaskCreated,
   onEditTask,
   onDeleteTask,
+  onToggleStatus,
+  updatingTaskId,
   newTask,
   setEditTaskmodal,
   setDeleteTaskModal,
@@ -96,21 +101,25 @@ function TaskList({
       </div>
 
       <div className="w-full flex flex-col justify-start items-center flex-grow gap-2">
-        {tasks.length > 0 ? (
-          tasks.map((task) => (
-            <TaskDiv
-              key={task.id}
-              task={task}
-              title={task.title}
-              onEdit={() => onEditTask && onEditTask(task)}
-              onDelete={() => onDeleteTask && onDeleteTask(task)}
-              setEditTaskmodal={setEditTaskmodal}
-              setDeleteTaskModal={setDeleteTaskModal}
-            />
-          ))
-        ) : (
-          <TaskNotFound />
-        )}
+        <AnimatePresence mode="popLayout">
+          {tasks.length > 0 ? (
+            tasks.map((task) => (
+              <TaskDiv
+                key={task.id}
+                task={task}
+                title={task.title}
+                onEdit={() => onEditTask && onEditTask(task)}
+                onDelete={() => onDeleteTask && onDeleteTask(task)}
+                onToggleStatus={onToggleStatus}
+                isUpdating={updatingTaskId === task.id}
+                setEditTaskmodal={setEditTaskmodal}
+                setDeleteTaskModal={setDeleteTaskModal}
+              />
+            ))
+          ) : (
+            <TaskNotFound />
+          )}
+        </AnimatePresence>
       </div>
 
       {newTask && (
