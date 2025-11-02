@@ -73,11 +73,6 @@ body {
   border-color: var(--hard-gray);
 }
 
-/* Hover states for borders */
-.hover\:border-green:hover {
-  border-color: var(--green);
-}
-
 .input {
   width: 350px;
   height: 44px;

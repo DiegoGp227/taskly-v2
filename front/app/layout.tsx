@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Taskly",
   description: "Taskly app",
+  icons: {
+    icon: "/fav.ico",
+  },
 };
 
 export default function RootLayout({
