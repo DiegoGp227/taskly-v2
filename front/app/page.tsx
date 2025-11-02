@@ -61,8 +61,8 @@ export default function HomePage() {
     }
   }, []);
 
-  if (loadingTopics) return <p>Cargando tópicos...</p>;
-  if (errorTopics) return <p>Error: {errorTopics}</p>;
+  if (loadingTopics) return <div className="w-full h-screen flex justify-center items-center text-white">Cargando tópicos...</div>;
+  if (errorTopics) return <div className="w-full h-screen flex justify-center items-center text-white">Error: {errorTopics}</div>;
 
   return (
     <main className="flex justify-center flex-wrap w-full my-10 gap-10">
