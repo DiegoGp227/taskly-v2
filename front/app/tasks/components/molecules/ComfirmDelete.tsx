@@ -1,7 +1,7 @@
 interface IComfirmDeleteProps {
   setDeleteTaskModal: (value: boolean) => void;
-  deleteTask: () => void;
-  isDeleteLoading: boolean;
+  deleteTask?: () => void;
+  isDeleteLoading?: boolean;
 }
 
 export default function ComfirmDelete({

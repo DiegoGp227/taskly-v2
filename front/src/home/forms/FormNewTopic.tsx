@@ -9,12 +9,16 @@ interface FormTopicProps {
   onSubmit: (data: TopicInput) => void;
   isLoading?: boolean;
   error?: string | null;
+  initialData?: TopicInput;
+  isEdit?: boolean;
 }
 
 export default function FormNewTopic({
   onSubmit,
   isLoading,
   error,
+  initialData,
+  isEdit = false,
 }: FormTopicProps) {
   const {
     register,
@@ -22,6 +26,7 @@ export default function FormNewTopic({
     formState: { errors, isSubmitting },
   } = useForm<TopicInput>({
     resolver: zodResolver(topicSchema),
+    defaultValues: initialData,
   });
 
   return (
@@ -29,7 +34,9 @@ export default function FormNewTopic({
       className="flex flex-col items-center gap-4 w-full max-w-sm"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h1 className="text-center text-white text-4xl">New Topic</h1>
+      <h1 className="text-center text-white text-4xl">
+        {isEdit ? "Edit Topic" : "New Topic"}
+      </h1>
 
       {/* Título */}
       <div className="w-full">
@@ -68,7 +75,7 @@ export default function FormNewTopic({
         type="submit"
         disabled={isSubmitting || isLoading}
       >
-        <span>{isLoading ? "Loading..." : "Send"}</span>
+        <span>{isLoading ? "Loading..." : isEdit ? "Update" : "Send"}</span>
         {!isLoading && <LuSendHorizontal size={20} />}
       </button>
     </form>

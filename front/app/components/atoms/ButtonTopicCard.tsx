@@ -8,6 +8,7 @@ interface IButtonTopicCardProps {
   topicId?: number;
   changeVisivilityEdit?: () => void;
   changeRendering?: () => void;
+  onDelete?: () => void;
 }
 
 export default function ButtonTopicCard({
@@ -16,6 +17,7 @@ export default function ButtonTopicCard({
   topicId,
   changeVisivilityEdit,
   changeRendering,
+  onDelete,
 }: IButtonTopicCardProps) {
   const router = useRouter();
 
@@ -35,13 +37,19 @@ export default function ButtonTopicCard({
         </div>
         <div className="flex gap-2">
           <button
-            onClick={() => changeVisivilityEdit}
+            onClick={(e) => {
+              e.stopPropagation();
+              changeVisivilityEdit?.();
+            }}
             className="w-5 h-5 cursor-pointer"
           >
             <FiEdit className="w-full h-full text-white" />
           </button>
           <button
-            onClick={() => changeRendering}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete?.();
+            }}
             className="w-6 h-6 cursor-pointer"
           >
             <MdDeleteOutline className="w-full h-full text-red-600" />
