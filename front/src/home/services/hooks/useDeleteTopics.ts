@@ -9,14 +9,12 @@ interface IDeleteTopicsResponse {
 export default function useDeleteTopics() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>(null);
-  const [success, setSuccess] = useState<boolean>(false);
 
   const deleteTopics = async (
     topicId: number,
   ): Promise<IDeleteTopicsResponse | null> => {
     setIsLoading(true);
     setError(null);
-    setSuccess(false);
 
     try {
       const url = new URL(`${TopicsURL}/${topicId}`).toString();
@@ -24,8 +22,6 @@ export default function useDeleteTopics() {
       const response = await deleteFetcher(url) as IDeleteTopicsResponse;
 
       console.log("Topic deleted successfully:", response);
-
-      setSuccess(true);
 
       return response;
     } catch (err) {
@@ -42,6 +38,5 @@ export default function useDeleteTopics() {
     deleteTopics,
     isLoading,
     error,
-    success,
   };
 }

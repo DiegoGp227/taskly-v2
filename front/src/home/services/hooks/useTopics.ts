@@ -28,17 +28,7 @@ export default function useTopics() {
     deleteTopics,
     isLoading: loadingDeleteTopic,
     error: errorDeleteTopic,
-    success,
   } = useDeleteTopics();
-
-  // useEffect(() => {
-  //   if (!isNaN(topicId)) {
-  //     getfetchData({ topicId });
-  //   }
-  // }, [topicId, getfetchData]);
-
-  // const todoTasks = getData?.todo || [];
-  // const completedTasks = getData?.done || [];
 
   return {
     topics,

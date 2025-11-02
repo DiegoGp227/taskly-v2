@@ -34,7 +34,7 @@ export default function HomePage() {
     errorDeleteTopic,
   } = useTopics();
 
-  const [modal, setModal] = useState<boolean>(false);
+  const [newModal, setNewModal] = useState<boolean>(false);
   const topicsRef = useRef(topics);
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function HomePage() {
 
   return (
     <main className="flex justify-center flex-wrap w-full my-10 gap-10">
-      <ButtonNewTopic onClick={() => setModal(true)} />
+      <ButtonNewTopic onClick={() => setNewModal(true)} />
       {topics.map((topic) => (
         <ButtonTopicCard
           key={topic.id}
@@ -77,14 +77,14 @@ export default function HomePage() {
           onDelete={handleDeleteClick}
         />
       ))}
-      {modal && (
-        <Modal onClose={() => setModal(false)}>
+      {newModal && (
+        <Modal onClose={() => setNewModal(false)}>
           <div className="w-96 h-[400px] flex flex-col">
             <FormNewTopic
               onSubmit={async (data) => {
                 try {
                   await createTopic(data);
-                  setModal(false);
+                  setNewModal(false);
                   refetchTopics();
                 } catch (err) {
                   console.error(err);
