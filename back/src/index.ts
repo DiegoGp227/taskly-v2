@@ -7,17 +7,8 @@ const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 const app = new Elysia()
   .use(
     cors({
-      origin: [
-        "http://localhost:3000",
-        "http://localhost:5000",
-        "http://192.168.0.3:3000",
-        "http://192.168.0.3:5000",
-        "https://taskly.devdiego.work",
-        "https://api.devdiego.work",
-      ],
+      origin: true,
       credentials: true,
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
     })
   )
   .use(router)
