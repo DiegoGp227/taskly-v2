@@ -1,4 +1,4 @@
-import { TasksURL } from "@/src/shared/constants/urls";
+import { TopicsURL } from "@/src/shared/constants/urls";
 import { deleteFetcher } from "@/utils/utils";
 import { useState } from "react";
 
@@ -9,23 +9,20 @@ interface DeleteTaskResponse {
 export default function useDeleteTask() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<unknown>(null);
-  const [success, setSuccess] = useState<boolean>(false);
 
   const deleteTask = async (
     taskId: number,
   ): Promise<DeleteTaskResponse | null> => {
     setIsLoading(true);
     setError(null);
-    setSuccess(false);
 
     try {
-      const url = new URL(`${TasksURL}/${taskId}`).toString();
+      const url = new URL(`${TopicsURL}/${taskId}`).toString();
 
       const response = await deleteFetcher(url) as DeleteTaskResponse;
 
       console.log("Task deleted successfully:", response);
 
-      setSuccess(true);
 
       return response;
     } catch (err) {
@@ -42,6 +39,5 @@ export default function useDeleteTask() {
     deleteTask,
     isLoading,
     error,
-    success,
   };
 }

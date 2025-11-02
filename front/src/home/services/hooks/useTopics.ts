@@ -1,4 +1,5 @@
 // import { useEffect } from "react";
+import useDeleteTopics from "./useDeleteTopics";
 import useGetTopics from "./useGetTopics";
 import usePostTopics from "./usePostTopics";
 import usePutTopics from "./usePutTopics";
@@ -23,11 +24,12 @@ export default function useTopics() {
     error: putTopicError,
   } = usePutTopics();
 
-  // const {
-  //   deleteTask,
-  //   isLoading: isDeleteLoading,
-  //   error: deleteTaskError,
-  // } = useDeleteTask();
+  const {
+    deleteTopics,
+    isLoading: loadingDeleteTopic,
+    error: errorDeleteTopic,
+    success,
+  } = useDeleteTopics();
 
   // useEffect(() => {
   //   if (!isNaN(topicId)) {
@@ -51,5 +53,9 @@ export default function useTopics() {
     updateTopic,
     loadingPutTopics,
     putTopicError,
+
+    deleteTopics,
+    loadingDeleteTopic,
+    errorDeleteTopic,
   };
 }

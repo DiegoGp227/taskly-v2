@@ -29,6 +29,9 @@ export default function HomePage() {
     updateTopic,
     loadingPutTopics,
     putTopicError,
+    deleteTopics,
+    loadingDeleteTopic,
+    errorDeleteTopic,
   } = useTopics();
 
   const [modal, setModal] = useState<boolean>(false);
@@ -43,7 +46,7 @@ export default function HomePage() {
   }, [refetchTopics]);
 
   const handleEditClick = useCallback((topicId: number) => {
-    const topic = topicsRef.current.find(t => t.id === topicId);
+    const topic = topicsRef.current.find((t) => t.id === topicId);
     if (topic) {
       setSelectedTopic(topic);
       setEditModal(true);
@@ -51,7 +54,7 @@ export default function HomePage() {
   }, []);
 
   const handleDeleteClick = useCallback((topicId: number) => {
-    const topic = topicsRef.current.find(t => t.id === topicId);
+    const topic = topicsRef.current.find((t) => t.id === topicId);
     if (topic) {
       setSelectedTopic(topic);
       setDeleteTaskModal(true);
@@ -136,12 +139,15 @@ export default function HomePage() {
                 setDeleteTaskModal(value);
                 if (!value) setSelectedTopic(null);
               }}
-              deleteTask={() => {
-                console.log("Deleting topic:", selectedTopic.id);
-                // Aquí implementarás la lógica de eliminación
-                setDeleteTaskModal(false);
-                setSelectedTopic(null);
+              deleteTask={async () => {
+                const result = await deleteTopics(selectedTopic.id);
+                if (result) {
+                  setDeleteTaskModal(false);
+                  setSelectedTopic(null);
+                  refetchTopics();
+                }
               }}
+              isDeleteLoading={loadingDeleteTopic}
             />
           </div>
         </Modal>
