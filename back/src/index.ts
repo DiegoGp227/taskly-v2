@@ -13,11 +13,12 @@ const app = new Elysia()
         "http://192.168.0.3:3000",
         "http://192.168.0.3:5000",
         "https://taskly.devdiego.work",
-        "https://api.devdiego.work",
+        "https://api-taskly.devdiego.work",
       ],
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
+      exposedHeaders: ["*"],
     })
   )
   .use(router)
