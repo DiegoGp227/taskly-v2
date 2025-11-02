@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import ButtonNewTopic from "./components/atoms/ButtonNewTopic";
 import ButtonTopicCard from "./components/atoms/ButtonTopicCard";
 import Modal from "./components/utils/Modal";
@@ -26,13 +26,37 @@ export default function HomePage() {
     createTopic,
     loaginPostTopic,
     sendError,
+    updateTopic,
+    loadingPutTopics,
+    putTopicError,
   } = useTopics();
 
   const [modal, setModal] = useState<boolean>(false);
+  const topicsRef = useRef(topics);
+
+  useEffect(() => {
+    topicsRef.current = topics;
+  }, [topics]);
 
   useEffect(() => {
     refetchTopics();
   }, [refetchTopics]);
+
+  const handleEditClick = useCallback((topicId: number) => {
+    const topic = topicsRef.current.find(t => t.id === topicId);
+    if (topic) {
+      setSelectedTopic(topic);
+      setEditModal(true);
+    }
+  }, []);
+
+  const handleDeleteClick = useCallback((topicId: number) => {
+    const topic = topicsRef.current.find(t => t.id === topicId);
+    if (topic) {
+      setSelectedTopic(topic);
+      setDeleteTaskModal(true);
+    }
+  }, []);
 
   if (loadingTopics) return <p>Cargando tópicos...</p>;
   if (errorTopics) return <p>Error: {errorTopics}</p>;
@@ -45,16 +69,9 @@ export default function HomePage() {
           key={topic.id}
           title={topic.title}
           description={topic.description || ""}
-          changeRendering={() => refetchTopics()}
           topicId={topic.id}
-          changeVisivilityEdit={() => {
-            setSelectedTopic(topic);
-            setEditModal(true);
-          }}
-          onDelete={() => {
-            setSelectedTopic(topic);
-            setDeleteTaskModal(true);
-          }}
+          onEdit={handleEditClick}
+          onDelete={handleDeleteClick}
         />
       ))}
       {modal && (
@@ -87,8 +104,7 @@ export default function HomePage() {
             <FormNewTopic
               onSubmit={async (data) => {
                 try {
-                  console.log("Updating topic:", selectedTopic.id, data);
-                  // Aquí implementarás la lógica de actualización
+                  await updateTopic(selectedTopic.id, data);
                   setEditModal(false);
                   setSelectedTopic(null);
                   refetchTopics();
@@ -96,8 +112,8 @@ export default function HomePage() {
                   console.error(err);
                 }
               }}
-              isLoading={loaginPostTopic}
-              error={sendError}
+              isLoading={loadingPutTopics}
+              error={putTopicError ? String(putTopicError) : null}
               initialData={{
                 title: selectedTopic.title,
                 description: selectedTopic.description || "",

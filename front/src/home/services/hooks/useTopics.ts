@@ -1,6 +1,7 @@
 // import { useEffect } from "react";
 import useGetTopics from "./useGetTopics";
 import usePostTopics from "./usePostTopics";
+import usePutTopics from "./usePutTopics";
 
 export default function useTopics() {
   const {
@@ -16,11 +17,11 @@ export default function useTopics() {
     error: sendError,
   } = usePostTopics();
 
-  // const {
-  //   updateTask,
-  //   isLoading: isPutLoading,
-  //   error: putTaskError,
-  // } = usePutTask();
+  const {
+    updateTopic,
+    isLoading: loadingPutTopics,
+    error: putTopicError,
+  } = usePutTopics();
 
   // const {
   //   deleteTask,
@@ -47,6 +48,8 @@ export default function useTopics() {
     loaginPostTopic,
     sendError,
 
-   
+    updateTopic,
+    loadingPutTopics,
+    putTopicError,
   };
 }

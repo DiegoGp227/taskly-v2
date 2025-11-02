@@ -1,22 +1,21 @@
 import { useRouter } from "next/navigation";
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteOutline } from "react-icons/md";
+import { memo } from "react";
 
 interface IButtonTopicCardProps {
   title?: string;
   description?: string;
   topicId?: number;
-  changeVisivilityEdit?: () => void;
-  changeRendering?: () => void;
-  onDelete?: () => void;
+  onEdit?: (topicId: number) => void;
+  onDelete?: (topicId: number) => void;
 }
 
-export default function ButtonTopicCard({
+const ButtonTopicCard = memo(function ButtonTopicCard({
   title,
   description,
   topicId,
-  changeVisivilityEdit,
-  changeRendering,
+  onEdit,
   onDelete,
 }: IButtonTopicCardProps) {
   const router = useRouter();
@@ -39,7 +38,7 @@ export default function ButtonTopicCard({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              changeVisivilityEdit?.();
+              if (topicId !== undefined) onEdit?.(topicId);
             }}
             className="w-5 h-5 cursor-pointer"
           >
@@ -48,7 +47,7 @@ export default function ButtonTopicCard({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              onDelete?.();
+              if (topicId !== undefined) onDelete?.(topicId);
             }}
             className="w-6 h-6 cursor-pointer"
           >
@@ -58,4 +57,6 @@ export default function ButtonTopicCard({
       </div>
     </button>
   );
-}
+});
+
+export default ButtonTopicCard;
