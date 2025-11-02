@@ -4,11 +4,11 @@
 import { StoreProvider } from "easy-peasy";
 import { ReactNode, useEffect, useState } from "react";
 import { SWRConfig } from "swr";
+import { createStore } from "easy-peasy";
+import apiClient from "@/src/shared/services/apiClient";
 
 const fetcher = (url: string) => apiClient.get(url).then((res) => res.data);
 
-import { createStore } from "easy-peasy";
-import apiClient from "@/src/shared/services/apiClient";
 
 const mockStore = createStore({});
 

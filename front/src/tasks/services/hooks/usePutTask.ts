@@ -1,4 +1,4 @@
-import { BaseURL, TasksBaseURL } from "@/src/shared/constants/urls";
+import { BaseURL, TasksURL } from "@/src/shared/constants/urls";
 import { putFetcher } from "@/utils/utils";
 import { useState } from "react";
 
@@ -28,7 +28,7 @@ export default function usePutTask() {
     setSuccess(false);
 
     try {
-      const url = new URL(`${TasksBaseURL}/${taskId}`, BaseURL).toString();
+      const url = new URL(`${TasksURL}/${taskId}`, BaseURL).toString();
 
       const response = await putFetcher<UpdateTaskResponse>(url, taskData);
 

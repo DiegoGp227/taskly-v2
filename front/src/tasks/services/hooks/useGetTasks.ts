@@ -1,4 +1,4 @@
-import { BaseURL, TasksBaseURL } from "@/src/shared/constants/urls";
+import { BaseURL, TasksURL } from "@/src/shared/constants/urls";
 import { fetcher } from "@/utils/utils";
 import { useCallback, useState } from "react";
 
@@ -31,7 +31,7 @@ export default function useGetTasks() {
       setError(null);
 
       try {
-        const url = new URL(`${TasksBaseURL}/${topicId}`, BaseURL).toString();
+        const url = new URL(`${TasksURL}/${topicId}`, BaseURL).toString();
 
         const json = await fetcher<TasksResponse>(url);
         console.log("API response received:", json);

@@ -21,7 +21,7 @@ export default function ButtonTopicCard({
 
   return (
     <button
-      className="w-[300px] h-[200px] border-2 border-soft-gray rounded-[5px] p-5 hover:border-green-500 flex flex-col justify-between"
+      className="w-[300px] h-[200px] border-2 border-soft-gray rounded-[5px] p-5 hover:border-green flex flex-col justify-between transition-colors duration-500"
       onClick={() => router.push(`/tasks/${topicId}`)}
     >
       <div className="flex flex-col gap-2">

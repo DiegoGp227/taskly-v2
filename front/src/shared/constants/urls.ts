@@ -12,10 +12,5 @@ export const SignupUserURL = new URL("/api/signup", BaseURL);
 // Topics endpoints
 export const TopicsURL = new URL("/api/topics", BaseURL);
 
-// Tasks endpoints
-// Endpoint base para crear tareas (POST /api/tasks)
 export const TasksURL = new URL("/api/tasks", BaseURL);
 
-// Endpoint para obtener tareas de un topic (GET /api/tasks/:topicId)
-// Los hooks construirán la URL completa agregando el topicId dinámicamente
-export const TasksBaseURL = "/api/tasks";
