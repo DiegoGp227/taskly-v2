@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-color-white: #ffffff;
+  --color-white: #ffffff;
   --color-green: #00f431;
   --color-soft-gray: #555;
   --color-hard-gray: #282828;
@@ -71,6 +71,15 @@ body {
 }
 .border-hard-gray {
   border-color: var(--hard-gray);
+}
+
+/* Hover variants */
+.hover\:border-green:hover {
+  border-color: var(--green) !important;
+}
+
+.hover\:border-blue:hover {
+  border-color: var(--blue) !important;
 }
 
 .input {
