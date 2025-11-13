@@ -11,9 +11,10 @@ const app = new Elysia()
         "http://localhost:3000",
         "http://localhost:5000",
         "https://taskly.devdiego.work",
+        "https://api-taskly.devdiego.work",
       ],
       credentials: true,
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
       allowedHeaders: ["Content-Type", "Authorization"],
     })
   )
