@@ -12,10 +12,12 @@ const app = new Elysia()
         "https://5db5-190-25-164-252.ngrok-free.app",
       ],
       credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
     })
   )
   .use(router)
-  .get("/ping", () => "pong") 
+  .get("/ping", () => "pong")
   .all("*", () => ({
     message: "Escribe bien mono estupido",
   }))
