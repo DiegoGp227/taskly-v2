@@ -36,7 +36,7 @@ export default function RootLayout({
         <SWRProvider>
           <AuthProvider>
             <Header />
-            <div className="max-w-screen-2xl mx-auto flex-1 w-full">
+            <div className="max-w-screen-2xl mx-auto flex-1 w-full bg-">
               {children}
             </div>
           </AuthProvider>
