@@ -95,7 +95,7 @@ function TaskList({
   };
 
   return (
-    <section className="w-[45%] h-[480px] border-2 border-soft-gray overflow-y-scroll flex flex-col">
+    <section className="w-[45%] min-w-[300px] h-[480px] border-2 border-soft-gray overflow-y-scroll flex flex-col">
       <div className="m-[10px] flex justify-center">
         <h2 className="text-[30px] text-green">{title}</h2>
       </div>

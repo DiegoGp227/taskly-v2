@@ -177,7 +177,7 @@ export default function TasksPage({ params }: TasksPageProps) {
   return (
     <>
       <div>
-        <section className="flex justify-center gap-10 my-10">
+        <section className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-10 my-6 md:my-10 px-4 md:px-0">
           <TaskList
             title="To Do"
             tasksStatus={0}
