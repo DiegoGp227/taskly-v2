@@ -22,8 +22,8 @@ function LoginPage() {
   };
 
   return (
-    <main className="w-screen h-screen flex justify-center items-center">
-      <div className="w-96 h-[400px] flex flex-col items-center border-2 border-soft-gray justify-evenly rounded">
+    <main className="w-screen h-screen flex justify-center items-center px-4">
+      <div className="w-full max-w-96 h-[400px] flex flex-col items-center border-2 border-soft-gray justify-evenly rounded px-6">
         <h1 className="text-white font-bold text-4xl">Login</h1>
         <FormLogin onSubmit={handleLogin} isLoading={isLoading} error={error} />
         <CreateAccount />
