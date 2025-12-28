@@ -22,7 +22,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <main className="w-screen h-screen flex justify-center items-center px-4">
+    <main className="h-screen flex justify-center items-center px-4">
       <div className="w-full max-w-96 h-[550px] flex flex-col items-center border-2 border-soft-gray justify-evenly rounded px-6">
         <h1 className="text-white font-bold text-4xl">Sign Up</h1>
         <FormSignUp onSubmit={handleSignUp}  />
