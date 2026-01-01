@@ -6,7 +6,7 @@ import { topics } from "../controllers/topics/topics.controller";
 import { tasks } from "../controllers/tasks/tasks.controller";
 
 export const router = new Elysia({ prefix: "/api" })
-  // auth
+  // auth 
   .post("/login", login)
   .post("/signup", signup)
 
